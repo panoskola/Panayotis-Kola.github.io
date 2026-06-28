@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panayotis A. Kola — IT Systems Administrator</title>
+<meta name="description" content="Panayotis A. Kola, IT Systems Administrator based in Athens, Greece.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1419;
+    --bg-panel:#161C24;
+    --bg-panel-raised:#1C2430;
+    --line:#2A3340;
+    --line-soft:#222B36;
+    --text:#E5E9EC;
+    --text-dim:#8B95A1;
+    --text-faint:#5A6573;
+    --accent:#5EEAD4;
+    --accent-dim:#2D6A60;
+    --warn:#F59E0B;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+
+  a{color:var(--accent); text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
+
+  .wrap{max-width:880px; margin:0 auto; padding:0 28px;}
+
+  /* ---------- Background grid texture ---------- */
+  .bg-grid{
+    position:fixed; inset:0; z-index:-1;
+    background-image:
+      linear-gradient(var(--line-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+    background-size:48px 48px;
+    opacity:0.35;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 0%, transparent 70%);
+  }
+
+  /* ---------- Top status bar ---------- */
+  .statusbar{
+    border-bottom:1px solid var(--line);
+    background:rgba(15,20,25,0.85);
+    backdrop-filter:blur(8px);
+    position:sticky; top:0; z-index:10;
+  }
+  .statusbar-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 28px;
+    max-width:880px; margin:0 auto;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+  }
+  .statusbar-left{display:flex; align-items:center; gap:10px;}
+  .dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 0 0 rgba(94,234,212,0.6);
+    animation:pulse 2.4s infinite;
+    flex-shrink:0;
+  }
+  @keyframes pulse{
+    0%{box-shadow:0 0 0 0 rgba(94,234,212,0.45);}
+    70%{box-shadow:0 0 0 6px rgba(94,234,212,0);}
+    100%{box-shadow:0 0 0 0 rgba(94,234,212,0);}
+  }
+  .statusbar-right a{color:var(--text-dim); margin-left:18px;}
+  .statusbar-right a:hover{color:var(--accent);}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:88px 0 56px;
+    border-bottom:1px solid var(--line);
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--accent);
+    letter-spacing:0.08em;
+    margin-bottom:18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:"$"; color:var(--text-faint);}
+  h1{
+    font-family:var(--sans);
+    font-weight:800;
+    font-size:clamp(2.4rem, 6vw, 3.6rem);
+    letter-spacing:-0.02em;
+    line-height:1.05;
+    margin-bottom:10px;
+  }
+  .role-line{
+    font-family:var(--mono);
+    font-size:clamp(0.95rem, 2vw, 1.15rem);
+    color:var(--text-dim);
+    margin-bottom:28px;
+  }
+  .role-line .accent{color:var(--accent);}
+
+  .hero-meta{
+    display:flex; flex-wrap:wrap; gap:24px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-dim);
+    margin-bottom:34px;
+  }
+  .hero-meta span{display:flex; align-items:center; gap:8px;}
+  .hero-meta svg{flex-shrink:0; opacity:0.7;}
+
+  .uptime-panel{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--bg-panel);
+  }
+  .uptime-cell{
+    padding:18px 20px;
+    border-right:1px solid var(--line);
+  }
+  .uptime-cell:last-child{border-right:none;}
+  .uptime-label{
+    font-family:var(--mono);
+    font-size:11px;
+    color:var(--text-faint);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:6px;
+  }
+  .uptime-value{
+    font-family:var(--mono);
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--text);
+  }
+  .uptime-value.accent{color:var(--accent);}
+
+  /* ---------- Section framing ---------- */
+  section{padding:64px 0;}
+  section + section{border-top:1px solid var(--line);}
+
+  .section-head{
+    display:flex; align-items:baseline; gap:12px;
+    margin-bottom:36px;
+  }
+  .prompt{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-faint);
+  }
+  .section-head h2{
+    font-family:var(--mono);
+    font-size:1.05rem;
+    font-weight:600;
+    color:var(--text);
+    letter-spacing:-0.01em;
+  }
+  .section-head h2 .dim{color:var(--text-dim); font-weight:400;}
+
+  /* ---------- Profile ---------- */
+  .profile-text{
+    font-size:1.05rem;
+    color:#C7CDD3;
+    max-width:680px;
+  }
+
+  /* ---------- Experience / log entries ---------- */
+  .log-entry{
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--bg-panel);
+    margin-bottom:18px;
+    overflow:hidden;
+    transition:border-color 0.2s ease;
+  }
+  .log-entry:hover{border-color:var(--accent-dim);}
+  .log-head{
+    display:flex; justify-content:space-between; align-items:flex-start;
+    gap:16px;
+    padding:18px 22px;
+    border-bottom:1px solid var(--line);
+    background:var(--bg-panel-raised);
+    flex-wrap:wrap;
+  }
+  .log-title{display:flex; flex-direction:column; gap:4px;}
+  .log-role{font-size:1.08rem; font-weight:700; color:var(--text);}
+  .log-org{font-family:var(--mono); font-size:13px; color:var(--text-dim);}
+  .log-org .org-name{color:var(--accent);}
+  .log-period{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-faint);
+    white-space:nowrap;
+    padding:4px 10px;
+    border:1px solid var(--line);
+    border-radius:20px;
+    align-self:flex-start;
+  }
+  .log-body{padding:20px 22px;}
+  .log-body ul{list-style:none;}
+  .log-body li{
+    position:relative;
+    padding-left:22px;
+    margin-bottom:12px;
+    color:#C7CDD3;
+    font-size:0.96rem;
+  }
+  .log-body li:last-child{margin-bottom:0;}
+  .log-body li::before{
+    content:"›";
+    position:absolute; left:0; top:0;
+    color:var(--accent);
+    font-family:var(--mono);
+    font-weight:700;
+  }
+
+  /* ---------- Skills grid ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    overflow:hidden;
+    background:var(--line);
+  }
+  .skill-cell{
+    background:var(--bg-panel);
+    padding:18px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .skill-name{font-size:0.95rem; color:var(--text);}
+  .skill-bar-track{
+    width:80px; height:4px;
+    background:var(--line);
+    border-radius:2px;
+    overflow:hidden;
+    flex-shrink:0;
+  }
+  .skill-bar-fill{
+    height:100%;
+    background:var(--accent);
+    border-radius:2px;
+  }
+
+  /* ---------- Two-column: Education / Languages / Hobbies / Courses ---------- */
+  .grid-2{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  .info-card{
+    border:1px solid var(--line);
+    border-radius:6px;
+    background:var(--bg-panel);
+    padding:22px;
+  }
+  .info-card h3{
+    font-family:var(--mono);
+    font-size:12px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--text-faint);
+    margin-bottom:14px;
+  }
+  .info-row{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:8px 0;
+    border-bottom:1px solid var(--line-soft);
+    font-size:0.92rem;
+  }
+  .info-row:last-child{border-bottom:none; padding-bottom:0;}
+  .info-row .label{color:var(--text);}
+  .info-row .meta{font-family:var(--mono); font-size:12px; color:var(--text-dim);}
+
+  .tag-list{display:flex; flex-wrap:wrap; gap:8px;}
+  .tag{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--text-dim);
+    border:1px solid var(--line);
+    padding:5px 11px;
+    border-radius:20px;
+  }
+
+  .course-item{
+    display:flex; justify-content:space-between; align-items:baseline;
+    padding:8px 0;
+    border-bottom:1px solid var(--line-soft);
+    font-size:0.92rem;
+    gap:12px;
+  }
+  .course-item:last-child{border-bottom:none; padding-bottom:0;}
+  .course-name{color:var(--text);}
+  .course-status{
+    font-family:var(--mono); font-size:11px; color:var(--accent);
+    white-space:nowrap;
+    text-transform:uppercase;
+  }
+  .course-status.pending{color:var(--warn);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:40px 0 60px;
+    text-align:center;
+  }
+  footer .prompt-line{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--text-faint);
+  }
+  footer .prompt-line .accent{color:var(--accent);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:680px){
+    .uptime-panel{grid-template-columns:1fr;}
+    .uptime-cell{border-right:none; border-bottom:1px solid var(--line);}
+    .uptime-cell:last-child{border-bottom:none;}
+    .skills-grid{grid-template-columns:1fr;}
+    .grid-2{grid-template-columns:1fr;}
+    .statusbar-right a{margin-left:12px;}
+    h1{font-size:clamp(2rem, 9vw, 2.6rem);}
+    section{padding:48px 0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-grid" aria-hidden="true"></div>
+
+<div class="statusbar">
+  <div class="statusbar-inner">
+    <div class="statusbar-left">
+      <span class="dot" aria-hidden="true"></span>
+      <span>STATUS: AVAILABLE</span>
+    </div>
+    <div class="statusbar-right">
+      <a href="mailto:kola.panagiotis@gmail.com">EMAIL</a>
+      <!-- Replace href below with your real LinkedIn profile URL -->
+      <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener">LINKEDIN</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">whoami</div>
+    <h1>Panayotis A. Kola</h1>
+    <div class="role-line">IT Systems Administrator <span class="accent">/</span> Identity, Endpoints &amp; Infrastructure</div>
+
+    <div class="hero-meta">
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Athens 11744, Greece
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+        kola.panagiotis@gmail.com
+      </span>
+      <span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20z"/></svg>
+        Greek / English
+      </span>
+    </div>
+
+    <div class="uptime-panel">
+      <div class="uptime-cell">
+        <div class="uptime-label">Experience</div>
+        <div class="uptime-value accent">8+ yrs</div>
+      </div>
+      <div class="uptime-cell">
+        <div class="uptime-label">Coverage</div>
+        <div class="uptime-value">22 countries</div>
+      </div>
+      <div class="uptime-cell">
+        <div class="uptime-label">Time zones supported</div>
+        <div class="uptime-value">6</div>
+      </div>
+    </div>
+  </header>
+
+  <section id="profile">
+    <div class="section-head">
+      <span class="prompt">$</span>
+      <h2>cat profile<span class="dim">.txt</span></h2>
+    </div>
+    <p class="profile-text">
+      IT Systems Administrator with experience supporting distributed teams across cloud and on-prem environments. Skilled in Google Workspace IAM, MFA and RBAC, JumpCloud MDM, endpoint security (NinjaRMM, SentinelOne, Trend Micro, Bitdefender), and incident response. Supported operations across 22 countries and six time zones, improving reliability through automation and clear documentation.
+    </p>
+  </section>
+
+  <section id="experience">
+    <div class="section-head">
+      <span class="prompt">$</span>
+      <h2>tail -f experience<span class="dim">.log</span></h2>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-head">
+        <div class="log-title">
+          <div class="log-role">IT Administrator</div>
+          <div class="log-org"><span class="org-name">Dialectica</span> · Piraeus</div>
+        </div>
+        <div class="log-period">Jan 2025 — Mar 2025</div>
+      </div>
+      <div class="log-body">
+        <ul>
+          <li>Administered core IT infrastructure across cloud and on-prem environments, maintaining service availability, security, and compliance during a fast-paced operational period.</li>
+          <li>Managed identity and access in Microsoft 365 Admin Center and Google Admin Console, provisioning and deprovisioning accounts, enforcing MFA, and applying role-based access controls.</li>
+          <li>Maintained endpoint security and device health using NinjaRMM, Palo Alto, Cortex XDR, and Bitdefender, executing patch management, monitoring alerts, and escalating incidents when needed.</li>
+          <li>Diagnosed and resolved high-priority incidents to restore services quickly and support business continuity.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-head">
+        <div class="log-title">
+          <div class="log-role">IT Administrator</div>
+          <div class="log-org"><span class="org-name">Blueground</span> · Marousi</div>
+        </div>
+        <div class="log-period">Nov 2021 — Dec 2024</div>
+      </div>
+      <div class="log-body">
+        <ul>
+          <li>Provided global IT support across 22 countries and six time zones via Jira Service Desk, triaging incidents, meeting SLAs, and escalating critical issues to reduce business disruption.</li>
+          <li>Automated user onboarding and offboarding and tightened access controls across Google Workspace, Slack, JumpCloud (MDM), and Jira to reduce manual provisioning and strengthen account security.</li>
+          <li>Maintained endpoint security and device health using SentinelOne and Trend Micro Apex, executing patch management, monitoring alerts, and escalating incidents when needed.</li>
+          <li>Owned end-to-end IT asset lifecycle for remote and on-site staff, including procurement, inventory tracking, provisioning, and secure decommissioning to maintain accurate device accountability.</li>
+          <li>Standardized desktop images and network configurations and documented deployment procedures to improve consistency and speed up troubleshooting for distributed teams.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-head">
+        <div class="log-title">
+          <div class="log-role">Technical Support Engineer</div>
+          <div class="log-org"><span class="org-name">iSystem</span> · Halandri</div>
+        </div>
+        <div class="log-period">Nov 2018 — Nov 2021</div>
+      </div>
+      <div class="log-body">
+        <ul>
+          <li>Performed hardware and software repairs for macOS and iOS devices as an Apple Certified Technician, restoring devices to operational readiness and maintaining repair quality standards.</li>
+          <li>Diagnosed and resolved escalated technical issues through structured troubleshooting and defined escalation paths, meeting service SLAs and improving service reliability.</li>
+          <li>Documented repair findings and resolution steps to support consistent handoffs and faster repeat issue resolution.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="log-entry">
+      <div class="log-head">
+        <div class="log-title">
+          <div class="log-role">IT Store Support</div>
+          <div class="log-org"><span class="org-name">Retail World AE (Public)</span> · Athens</div>
+        </div>
+        <div class="log-period">Jul 2016 — Nov 2018</div>
+      </div>
+      <div class="log-body">
+        <ul>
+          <li>Supported point-of-sale and in-store IT systems by configuring devices, monitoring performance, and performing preventive maintenance to reduce downtime during daily store operations.</li>
+          <li>Provided front-line technical support for laptops, desktops, and mobile devices, diagnosing hardware and software issues and guiding non-technical users through fixes to restore service quickly.</li>
+          <li>Executed routine system updates and maintenance during peak retail hours to maintain operational continuity and minimize disruption to customer transactions.</li>
+          <li>Tracked and met monthly KPIs for customer satisfaction, response times, and system availability by prioritizing incidents and following consistent troubleshooting workflows.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head">
+      <span class="prompt">$</span>
+      <h2>systemctl status<span class="dim"> --skills</span></h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <span class="skill-name">Networking</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:90%"></span></span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Identity &amp; Access Management (IAM)</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:95%"></span></span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Virtualization</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:80%"></span></span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Scripting</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:75%"></span></span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">MDM (JumpCloud)</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:90%"></span></span>
+      </div>
+      <div class="skill-cell">
+        <span class="skill-name">Endpoint Security</span>
+        <span class="skill-bar-track"><span class="skill-bar-fill" style="width:92%"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section id="more">
+    <div class="section-head">
+      <span class="prompt">$</span>
+      <h2>ls<span class="dim"> -la /more</span></h2>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:24px;">
+      <div class="info-card">
+        <h3>Education</h3>
+        <div class="info-row">
+          <span class="label">Associate Degree, Electrical Automations &amp; Robotics</span>
+        </div>
+        <div class="info-row">
+          <span class="meta">IEK Delta, Athens</span>
+          <span class="meta">2014 — 2016</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Courses &amp; Certifications</h3>
+        <div class="course-item">
+          <span class="course-name">CompTIA A+ Certification</span>
+          <span class="course-status pending">In Progress</span>
+        </div>
+        <div class="course-item">
+          <span class="course-name">IT Security Foundations: Network Security</span>
+          <span class="course-status">LinkedIn Learning</span>
+        </div>
+        <div class="course-item">
+          <span class="course-name">Apple Certified Macintosh Technician (ACMT)</span>
+          <span class="course-status">Apple</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="info-card">
+        <h3>Languages</h3>
+        <div class="tag-list">
+          <span class="tag">Greek — Native</span>
+          <span class="tag">English — Fluent</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <h3>Outside Work</h3>
+        <div class="tag-list">
+          <span class="tag">Video Games</span>
+          <span class="tag">Sports</span>
+          <span class="tag">Traveling</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="prompt-line">
+      $ echo "References available on request" <span class="accent">_</span>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>
