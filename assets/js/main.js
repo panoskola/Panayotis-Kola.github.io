@@ -1,0 +1,557 @@
+/* ==========================================================
+   Panayotis A. Kola — site logic (vanilla JS, no build step)
+   ========================================================== */
+(function () {
+  'use strict';
+
+  var S = window.SITE;
+  var root = document.documentElement;
+  var reduceMotion = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function (sel, ctx) { return (ctx || document).querySelector(sel); };
+  var $$ = function (sel, ctx) { return Array.prototype.slice.call((ctx || document).querySelectorAll(sel)); };
+
+  function store(key, val) {
+    try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); } catch (e) { return null; }
+  }
+  function lang() { return root.getAttribute('lang') === 'el' ? 'el' : 'en'; }
+  function t(key) { var d = S.ui[lang()]; return (d && d[key] != null) ? d[key] : (S.ui.en[key] || ''); }
+  function L(obj) { return obj && typeof obj === 'object' ? (obj[lang()] || obj.en) : obj; }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+  /* ---------------- i18n ---------------- */
+  function applyI18n() {
+    $$('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
+    $$('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
+    $$('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))); });
+    document.title = lang() === 'el' ? 'Παναγιώτης Α. Κόλα — IT Administrator' : 'Panayotis A. Kola — IT Administrator';
+  }
+
+  /* ---------------- Renderers ---------------- */
+  var ICONS = {
+    lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    shield: '<path d="M12 2 4 6v6c0 5.5 3.8 8.7 8 10 4.2-1.3 8-4.5 8-10V6l-8-4z"/><path d="m9 12 2 2 4-4"/>',
+    device: '<rect x="2" y="4" width="14" height="10" rx="1.5"/><path d="M6 18h6M9 14v4"/><rect x="17" y="8" width="5" height="12" rx="1"/>',
+    server: '<rect x="2" y="3" width="20" height="7" rx="1.5"/><rect x="2" y="14" width="20" height="7" rx="1.5"/><path d="M6 6.5h.01M6 17.5h.01"/>'
+  };
+  function svgIcon(name) {
+    return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + ICONS[name] + '</svg>';
+  }
+
+  function renderStack() {
+    $('#stack-grid').innerHTML = S.stack.map(function (c, i) {
+      return '<article class="stack-card glass reveal" style="--d:' + (i * 0.08) + 's">' +
+        '<div class="stack-top"><span class="stack-ico">' + svgIcon(c.icon) + '</span><h3>' + esc(L(c.title)) + '</h3></div>' +
+        '<div class="tags">' + c.tags.map(function (tg) { return '<span class="tag">' + esc(tg) + '</span>'; }).join('') + '</div></article>';
+    }).join('');
+  }
+
+  var openRoles = { 0: false, 1: true, 2: true };
+  function renderTimeline() {
+    var chevron = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
+    $('#timeline').innerHTML = S.experience.map(function (r, i) {
+      var body = r.groups.map(function (g) {
+        var head = g.sub ? '<div class="t-sub"><span>' + esc(L(g.sub)) + '</span><span>' + esc(L(g.period)) + '</span></div>' : '';
+        return head + '<ul>' + g.bullets.map(function (b) { return '<li>' + esc(L(b)) + '</li>'; }).join('') + '</ul>';
+      }).join('');
+      var open = openRoles[i] ? ' open' : '';
+      var muted = i === 0 ? ' muted' : '';
+      return '<li class="t-item reveal' + open + muted + '" data-i="' + i + '">' +
+        '<div class="t-card glass">' +
+          '<button class="t-head" type="button" aria-expanded="' + (!!openRoles[i]) + '">' +
+            '<span><span class="t-title">' + esc(L(r.title)) + '</span><br><span class="t-org"><b>' + esc(r.org) + '</b> · ' + esc(L(r.place)) + '</span></span>' +
+            '<span class="t-period">' + esc(L(r.period)) + '</span>' +
+            '<span class="t-scope">' + esc(L(r.scope)) + '</span>' +
+            '<span class="t-toggle">' + (lang() === 'el' ? 'λεπτομέρειες' : 'details') + ' ' + chevron + '</span>' +
+          '</button>' +
+          '<div class="t-body"><div><div class="t-inner">' + body + '</div></div></div>' +
+        '</div></li>';
+    }).join('');
+    $$('#timeline .t-head').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var item = btn.closest('.t-item');
+        var i = +item.getAttribute('data-i');
+        openRoles[i] = !item.classList.contains('open');
+        item.classList.toggle('open', openRoles[i]);
+        btn.setAttribute('aria-expanded', openRoles[i]);
+      });
+    });
+  }
+
+  function renderLab() {
+    $('#roadmap').innerHTML = S.roadmap.map(function (r) {
+      return '<li class="' + (r.done ? 'is-done' : '') + '"><span class="st ' + (r.done ? 'done' : 'next') + '" title="' +
+        esc(t(r.done ? 'lab.done' : 'lab.next')) + '">' + (r.done ? '✓' : '') + '</span><span>' + esc(L(r)) + '</span></li>';
+    }).join('');
+    $('#incidents').innerHTML = S.incidents.map(function (x, i) {
+      return '<article class="incident glass reveal" style="--d:' + (i * 0.06) + 's">' +
+        '<code class="inc-cmd">' + esc(x.cmd) + '</code>' +
+        '<h4>' + esc(L(x.title)) + '</h4><p>' + esc(L(x.body)) + '</p>' +
+        '<p class="inc-lesson"><b>' + esc(t('lab.lesson')) + '</b>' + esc(L(x.lesson)) + '</p></article>';
+    }).join('');
+  }
+
+  function renderCerts() {
+    $('#cert-list').innerHTML = S.certs.map(function (c) {
+      return '<li><span class="cert-name">' + esc(c.name) + '</span><span class="cert-by">' + esc(c.by) + '</span>' +
+        '<span class="badge ' + (c.prep ? 'prep' : 'ok') + '">' + esc(t(c.prep ? 'certs.prep' : 'certs.done')) + '</span></li>';
+    }).join('');
+    var e = S.education;
+    $('#edu').innerHTML = '<div class="cert-name">' + esc(L(e.name)) + '</div><div class="edu-meta"><span>' + esc(L(e.school)) + '</span><span>' + esc(e.years) + '</span></div>';
+    $('#langs').innerHTML = S.languages[lang()].map(function (l) { return '<span class="chip">' + esc(l) + '</span>'; }).join('');
+  }
+
+  function renderAll() {
+    applyI18n();
+    renderStack();
+    renderTimeline();
+    renderLab();
+    renderCerts();
+    observeReveals();
+    bindGlass();
+    bindTilt();
+    restartTyped();
+  }
+
+  /* ---------------- Theme / language ---------------- */
+  function setTheme(th) {
+    root.setAttribute('data-theme', th);
+    store('pk-theme', th);
+    var m = document.querySelector('meta[name="theme-color"]');
+    if (m) m.setAttribute('content', th === 'light' ? '#f4f7fb' : '#070b14');
+    net.refreshColors();
+  }
+  function setLang(l) {
+    root.setAttribute('lang', l);
+    store('pk-lang', l);
+    renderAll();
+    $$('.reveal').forEach(function (el) { el.classList.add('in'); });
+  }
+  $('#theme-btn').addEventListener('click', function () { setTheme(root.getAttribute('data-theme') === 'light' ? 'dark' : 'light'); });
+  $('#lang-btn').addEventListener('click', function () { setLang(lang() === 'el' ? 'en' : 'el'); });
+
+  /* ---------------- Nav ---------------- */
+  var nav = $('.nav'), menuBtn = $('#menu-btn'), links = $('#nav-links');
+  menuBtn.addEventListener('click', function () {
+    var open = !links.classList.contains('open');
+    links.classList.toggle('open', open);
+    menuBtn.setAttribute('aria-expanded', open);
+  });
+  $$('#nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () { links.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); });
+  });
+  var bar = $('.scroll-progress span');
+  function onScroll() {
+    var y = window.scrollY || window.pageYOffset;
+    nav.classList.toggle('scrolled', y > 10);
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, y / max) : 0) + ')';
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  if ('IntersectionObserver' in window) {
+    var secObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          $$('#nav-links a').forEach(function (a) { a.classList.toggle('active', a.getAttribute('href') === '#' + en.target.id); });
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    $$('main section[id]').forEach(function (s) { secObs.observe(s); });
+  }
+
+  /* ---------------- Reveal + counters ---------------- */
+  var revObs = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    entries.forEach(function (en) {
+      if (en.isIntersecting) {
+        en.target.classList.add('in');
+        revObs.unobserve(en.target);
+        $$('[data-count]', en.target).forEach(countUp);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }) : null;
+  function observeReveals() {
+    $$('.reveal:not(.in)').forEach(function (el) { if (revObs) revObs.observe(el); else el.classList.add('in'); });
+  }
+  function countUp(el) {
+    if (el.dataset.done) return;
+    el.dataset.done = '1';
+    var end = +el.getAttribute('data-count'), suf = el.getAttribute('data-suffix') || '';
+    if (reduceMotion) { el.textContent = end + suf; return; }
+    var t0 = performance.now(), dur = 1400;
+    (function step(now) {
+      var p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(end * e) + (p === 1 ? suf : '');
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  /* ---------------- Glass highlight & tilt ---------------- */
+  function bindGlass() {
+    $$('.glass').forEach(function (el) {
+      if (el.dataset.gl) return;
+      el.dataset.gl = '1';
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+        el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+      });
+    });
+  }
+  function bindTilt() {
+    if (reduceMotion || !matchMedia('(hover: hover)').matches) return;
+    $$('.stack-card').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'perspective(900px) rotateX(' + (-y * 6) + 'deg) rotateY(' + (x * 6) + 'deg) translateY(-3px)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+  }
+
+  /* ---------------- Typed roles ---------------- */
+  var typedTimer = null;
+  function restartTyped() {
+    clearTimeout(typedTimer);
+    var el = $('#typed'), words = S.roles[lang()], wi = 0, ci = 0, del = false;
+    if (reduceMotion) { el.textContent = words[0]; return; }
+    (function tick() {
+      var w = words[wi];
+      ci += del ? -1 : 1;
+      el.textContent = w.slice(0, ci);
+      var wait = del ? 35 : 75;
+      if (!del && ci === w.length) { del = true; wait = 1900; }
+      else if (del && ci === 0) { del = false; wi = (wi + 1) % words.length; wait = 350; }
+      typedTimer = setTimeout(tick, wait);
+    })();
+  }
+
+  /* ---------------- Glitch ---------------- */
+  var h1 = $('.glitch');
+  if (h1 && !reduceMotion) {
+    setInterval(function () {
+      h1.classList.add('glitching');
+      setTimeout(function () { h1.classList.remove('glitching'); }, 160);
+    }, 5200);
+  }
+
+  /* ---------------- Hero mini terminal ---------------- */
+  var heroScript = [
+    ['cmd', 'Get-ADDomain | Select-Object NetBIOSName, Forest'],
+    ['out', '\n<span class="c-dim">NetBIOSName Forest</span>\n<span class="c-dim">----------- ------</span>\nLAB         lab.local\n'],
+    ['cmd', 'nltest /dsgetdc:lab.local'],
+    ['out', '           DC: \\\\DC01.lab.local\n      Address: \\\\192.168.10.10\n  Dom Name: lab.local\n<span class="c-ok">The command completed successfully</span>\n'],
+    ['cmd', 'Test-Connection CLIENT01 -Count 1 -Quiet'],
+    ['out', '<span class="c-ok">True</span>\n'],
+    ['cmd', 'Test-Connection 192.168.10.1 -Count 1 -Quiet'],
+    ['out', '<span class="c-warn">False</span>  <span class="c-dim"># gateway intentionally absent</span>\n']
+  ];
+  (function heroTerm() {
+    var pre = $('#hero-term');
+    if (!pre) return;
+    var html = '', step = 0, ci = 0;
+    var ps = '<span class="c-ps">PS C:\\&gt;</span> ';
+    if (reduceMotion) {
+      pre.innerHTML = heroScript.map(function (s) { return s[0] === 'cmd' ? ps + esc(s[1]) + '\n' : s[1]; }).join('');
+      return;
+    }
+    function run() {
+      if (step >= heroScript.length) { setTimeout(function () { html = ''; step = 0; run(); }, 5000); return; }
+      var s = heroScript[step];
+      if (s[0] === 'cmd') {
+        if (ci === 0) html += ps;
+        ci++;
+        pre.innerHTML = html + esc(s[1].slice(0, ci)) + '<span class="caret"></span>';
+        if (ci < s[1].length) return setTimeout(run, 28 + Math.random() * 40);
+        html += esc(s[1]) + '\n'; ci = 0; step++;
+        pre.innerHTML = html;
+        return setTimeout(run, 420);
+      }
+      html += s[1]; step++;
+      pre.innerHTML = html;
+      setTimeout(run, 900);
+    }
+    setTimeout(run, 900);
+  })();
+
+  /* ---------------- Network background ---------------- */
+  var net = (function () {
+    var cv = $('#net-bg'), ctx = cv.getContext('2d');
+    var W = 0, H = 0, dpr = 1, nodes = [], pulses = [], mouse = { x: -9999, y: -9999 };
+    var c1 = '56,189,248', c2 = '167,139,250', light = false, running = true, raf = 0;
+
+    function refreshColors() {
+      var cs = getComputedStyle(root);
+      c1 = cs.getPropertyValue('--net-node').trim() || c1;
+      c2 = cs.getPropertyValue('--net-node-2').trim() || c2;
+      light = root.getAttribute('data-theme') === 'light';
+      if (reduceMotion) draw();
+    }
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = window.innerWidth; H = window.innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      var target = Math.min(110, Math.round((W * H) / 15000));
+      while (nodes.length < target) nodes.push(mk());
+      nodes.length = target;
+      if (reduceMotion) draw();
+    }
+    function mk() {
+      return { x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35,
+               r: Math.random() * 1.6 + .8, alt: Math.random() < .25 };
+    }
+    var LINK = 140;
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      var a = light ? .55 : 1;
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        for (var j = i + 1; j < nodes.length; j++) {
+          var m = nodes[j], dx = n.x - m.x, dy = n.y - m.y, d2 = dx * dx + dy * dy;
+          if (d2 < LINK * LINK) {
+            var o = (1 - Math.sqrt(d2) / LINK) * .22 * a;
+            ctx.strokeStyle = 'rgba(' + c1 + ',' + o + ')';
+            ctx.lineWidth = 1;
+            ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(m.x, m.y); ctx.stroke();
+          }
+        }
+        var mdx = n.x - mouse.x, mdy = n.y - mouse.y, md = Math.sqrt(mdx * mdx + mdy * mdy);
+        if (md < 180) {
+          ctx.strokeStyle = 'rgba(' + c2 + ',' + ((1 - md / 180) * .45 * a) + ')';
+          ctx.beginPath(); ctx.moveTo(n.x, n.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+        }
+      }
+      for (var k = 0; k < nodes.length; k++) {
+        var p = nodes[k];
+        ctx.fillStyle = 'rgba(' + (p.alt ? c2 : c1) + ',' + (.75 * a) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      }
+      // data packets travelling along links
+      for (var q = pulses.length - 1; q >= 0; q--) {
+        var pu = pulses[q];
+        pu.t += pu.s;
+        if (pu.t >= 1) { pulses.splice(q, 1); continue; }
+        var x = pu.a.x + (pu.b.x - pu.a.x) * pu.t, y = pu.a.y + (pu.b.y - pu.a.y) * pu.t;
+        var g = ctx.createRadialGradient(x, y, 0, x, y, 7);
+        g.addColorStop(0, 'rgba(' + c1 + ',' + (.95 * a) + ')');
+        g.addColorStop(1, 'rgba(' + c1 + ',0)');
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(x, y, 7, 0, Math.PI * 2); ctx.fill();
+      }
+    }
+    function spawnPulse() {
+      if (pulses.length > 6 || nodes.length < 2) return;
+      var a = nodes[(Math.random() * nodes.length) | 0], best = null, bd = LINK * LINK;
+      for (var i = 0; i < nodes.length; i++) {
+        var b = nodes[i]; if (b === a) continue;
+        var d = (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+        if (d < bd && d > 900) { bd = d; best = b; }
+      }
+      if (best) pulses.push({ a: a, b: best, t: 0, s: .012 + Math.random() * .012 });
+    }
+    function loop() {
+      if (!running) return;
+      for (var i = 0; i < nodes.length; i++) {
+        var n = nodes[i];
+        n.x += n.vx; n.y += n.vy;
+        if (n.x < -20) n.x = W + 20; if (n.x > W + 20) n.x = -20;
+        if (n.y < -20) n.y = H + 20; if (n.y > H + 20) n.y = -20;
+      }
+      if (Math.random() < .05) spawnPulse();
+      draw();
+      raf = requestAnimationFrame(loop);
+    }
+    window.addEventListener('resize', resize);
+    window.addEventListener('pointermove', function (e) { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    window.addEventListener('pointerleave', function () { mouse.x = mouse.y = -9999; });
+    document.addEventListener('visibilitychange', function () {
+      if (reduceMotion) return;
+      running = !document.hidden;
+      cancelAnimationFrame(raf);
+      if (running) raf = requestAnimationFrame(loop);
+    });
+    resize(); refreshColors();
+    if (!reduceMotion) raf = requestAnimationFrame(loop); else draw();
+    return { refreshColors: refreshColors };
+  })();
+
+  /* ---------------- Interactive terminal ---------------- */
+  var term = $('#term'), out = $('#term-out'), input = $('#term-input'), tbody = $('#term-body');
+  var hist = [], hi = 0, lastFocus = null, greeted = false;
+  var C = function (cls, s) { return '<span class="' + cls + '">' + s + '</span>'; };
+  var PS = '<span class="term-ps">pkola@lab:~$</span>';
+
+  function print(html, cls) {
+    var d = document.createElement('div');
+    d.className = 'o' + (cls ? ' ' + cls : '');
+    d.innerHTML = html;
+    out.appendChild(d);
+    tbody.scrollTop = tbody.scrollHeight;
+  }
+  function openTerm() {
+    lastFocus = document.activeElement;
+    term.hidden = false;
+    document.body.style.overflow = 'hidden';
+    if (!greeted) {
+      greeted = true;
+      print(C('c-acc', 'PKOLA-OS') + ' ' + C('c-dim', '(interactive résumé shell)') + '\n' +
+        'Type ' + C('c-ok', 'help') + ' to list commands · ' + C('c-ok', 'Tab') + ' completes · ' + C('c-ok', '↑/↓') + ' history · ' + C('c-ok', 'Esc') + ' closes\n');
+    }
+    setTimeout(function () { input.focus(); }, 30);
+  }
+  function closeTerm() {
+    term.hidden = true;
+    document.body.style.overflow = '';
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+  $('#term-btn').addEventListener('click', openTerm);
+  $('#term-btn-hero').addEventListener('click', openTerm);
+  $('#term-close').addEventListener('click', closeTerm);
+  term.addEventListener('click', function (e) { if (e.target === term) closeTerm(); });
+  tbody.addEventListener('click', function () { if (!window.getSelection().toString()) input.focus(); });
+  document.addEventListener('keydown', function (e) {
+    var tag = (e.target.tagName || '').toLowerCase();
+    if (e.key === 'Escape' && !term.hidden) { e.preventDefault(); closeTerm(); return; }
+    if ((e.key === '`' || e.key === '~') && term.hidden && tag !== 'input' && tag !== 'textarea') { e.preventDefault(); openTerm(); }
+    if (e.key === 'Tab' && !term.hidden) {
+      // keep focus inside the dialog
+      if (e.target !== input) { e.preventDefault(); input.focus(); }
+    }
+  });
+
+  function sectionList(title, rows) {
+    return C('c-acc', title) + '\n' + rows.map(function (r) { return '  ' + r; }).join('\n');
+  }
+  function go(id) { closeTerm(); var el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' }); }
+
+  var CMDS = {
+    help: { d: 'list commands', f: function () {
+      var rows = Object.keys(CMDS).filter(function (k) { return !CMDS[k].hidden; }).map(function (k) {
+        return C('c-ok', (k + '            ').slice(0, 12)) + C('c-dim', CMDS[k].d);
+      });
+      return sectionList('Available commands', rows);
+    } },
+    whoami: { d: 'who is this', f: function () {
+      return C('c-acc', 'Panayotis A. Kola') + ' — IT Administrator\n' + C('c-dim', 'Athens, Greece · 9+ years in IT support & administration');
+    } },
+    about: { d: 'short profile', f: function () { return t('about.p1') + '\n\n' + t('about.p2'); } },
+    skills: { d: 'technical stack', f: function () {
+      return S.stack.map(function (c) { return C('c-acc', '▸ ' + L(c.title)) + '\n  ' + c.tags.join(C('c-dim', ' · ')); }).join('\n');
+    } },
+    experience: { d: 'work history (alias: exp)', f: function () {
+      return S.experience.map(function (r) {
+        return C('c-ok', (L(r.period) + '                      ').slice(0, 22)) + C('c-acc', L(r.title)) + ' @ ' + r.org;
+      }).join('\n') + '\n' + C('c-dim', 'Tip: "goto experience" for details');
+    } },
+    lab: { d: 'home lab topology', f: function () {
+      return C('c-acc', 'lab.local') + C('c-dim', '  (Hyper-V · internal switch LAB · 192.168.10.0/24)') + '\n' +
+        '  DC01      192.168.10.10  Windows Server 2022 · AD DS · DNS\n' +
+        '  CLIENT01  192.168.10.50  Windows 11 Enterprise · domain-joined\n' +
+        '  GW        192.168.10.1   ' + C('c-warn', 'intentionally absent') + '\n' +
+        C('c-dim', 'Try: ping dc01 · ping 192.168.10.1 · ipconfig · nslookup lab.local');
+    } },
+    certs: { d: 'certifications & education', f: function () {
+      return S.certs.map(function (c) { return (c.prep ? C('c-warn', '[prep]') : C('c-ok', '[ ok ]')) + ' ' + c.name; }).join('\n') +
+        '\n' + C('c-dim', '[edu ]') + ' ' + L(S.education.name) + ' — ' + L(S.education.school);
+    } },
+    contact: { d: 'how to reach me', f: function () {
+      return 'email     ' + '<a href="mailto:kola.panagiotis@gmail.com">kola.panagiotis@gmail.com</a>\n' +
+        'linkedin  <a href="https://www.linkedin.com/in/panayotisarturkola/" target="_blank" rel="noopener">linkedin.com/in/panayotisarturkola</a>\n' +
+        'github    <a href="https://github.com/panoskola" target="_blank" rel="noopener">github.com/panoskola</a>';
+    } },
+    cv: { d: 'download CV (PDF)', f: function () {
+      var a = document.createElement('a');
+      a.href = 'assets/cv/Panayotis_Kola_CV.pdf'; a.download = 'Panayotis_Kola_CV.pdf';
+      document.body.appendChild(a); a.click(); a.remove();
+      return C('c-ok', 'Downloading Panayotis_Kola_CV.pdf …');
+    } },
+    goto: { d: 'scroll to a section: about|stack|experience|lab|certs|contact', f: function (args) {
+      var id = (args[0] || '').toLowerCase();
+      if (['about', 'stack', 'experience', 'lab', 'certs', 'contact'].indexOf(id) < 0) return C('c-bad', 'usage: goto about|stack|experience|lab|certs|contact');
+      setTimeout(function () { go(id); }, 150); return C('c-dim', 'cd #' + id);
+    } },
+    ping: { d: 'ping a lab host', f: function (args) {
+      var h = (args[0] || '').toLowerCase();
+      var map = { dc01: '192.168.10.10', 'dc01.lab.local': '192.168.10.10', '192.168.10.10': '192.168.10.10',
+                  client01: '192.168.10.50', 'client01.lab.local': '192.168.10.50', '192.168.10.50': '192.168.10.50' };
+      if (!h) return C('c-bad', 'usage: ping <host>');
+      if (h === '192.168.10.1') {
+        return 'Pinging 192.168.10.1 with 32 bytes of data:\n' +
+          C('c-warn', 'Reply from 192.168.10.50: Destination host unreachable.\nReply from 192.168.10.50: Destination host unreachable.') + '\n' +
+          C('c-dim', '# expected: nobody owns .1 on this subnet, so ARP gets no answer\n# and the "reply" comes from my own address — unreachable, not timed out');
+      }
+      if (!map[h]) return 'Ping request could not find host ' + esc(args[0]) + '. Please check the name and try again.';
+      var ip = map[h], lines = [];
+      for (var i = 0; i < 4; i++) lines.push('Reply from ' + ip + ': bytes=32 time<1ms TTL=128');
+      return 'Pinging ' + esc(args[0]) + ' [' + ip + '] with 32 bytes of data:\n' + C('c-ok', lines.join('\n')) +
+        '\n\nPackets: Sent = 4, Received = 4, Lost = 0 (0% loss)';
+    } },
+    ipconfig: { d: 'CLIENT01 network config', f: function () {
+      return 'Windows IP Configuration\n\nEthernet adapter Ethernet:\n\n' +
+        '   Connection-specific DNS Suffix  . : lab.local\n' +
+        '   IPv4 Address. . . . . . . . . . . : ' + C('c-acc', '192.168.10.50') + '\n' +
+        '   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n' +
+        '   Default Gateway . . . . . . . . . : 192.168.10.1\n' +
+        '   DNS Servers . . . . . . . . . . . : 192.168.10.10';
+    } },
+    nslookup: { d: 'resolve a lab name', f: function (args) {
+      var n = (args[0] || 'lab.local').toLowerCase();
+      var rec = { 'lab.local': '192.168.10.10', 'dc01': '192.168.10.10', 'dc01.lab.local': '192.168.10.10', 'client01': '192.168.10.50', 'client01.lab.local': '192.168.10.50' };
+      var head = 'Server:  dc01.lab.local\nAddress:  192.168.10.10\n\n';
+      if (!rec[n]) return head + C('c-bad', '*** dc01.lab.local can\'t find ' + esc(n) + ': Non-existent domain');
+      var fq = n.indexOf('.') < 0 ? n + '.lab.local' : n;
+      return head + 'Name:    ' + fq + '\nAddress:  ' + C('c-acc', rec[n]);
+    } },
+    lang: { d: 'switch language: lang en|el', f: function (args) {
+      var l = (args[0] || '').toLowerCase();
+      if (l !== 'en' && l !== 'el') return C('c-bad', 'usage: lang en|el');
+      setLang(l); return C('c-ok', 'language → ' + l);
+    } },
+    theme: { d: 'switch theme: theme dark|light', f: function (args) {
+      var th = (args[0] || '').toLowerCase();
+      if (th !== 'dark' && th !== 'light') th = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      setTheme(th); return C('c-ok', 'theme → ' + th);
+    } },
+    history: { d: 'command history', f: function () { return hist.map(function (h, i) { return C('c-dim', (i + 1) + '  ') + esc(h); }).join('\n') || C('c-dim', '(empty)'); } },
+    date: { d: 'current date/time', f: function () { return new Date().toString(); } },
+    clear: { d: 'clear the screen (alias: cls)', f: function () { out.innerHTML = ''; return null; } },
+    exit: { d: 'close the terminal', f: function () { setTimeout(closeTerm, 120); return C('c-dim', 'logout'); } },
+    sudo: { hidden: true, f: function () { return C('c-bad', 'pkola is not in the sudoers file. This incident will be reported.') + '\n' + C('c-dim', '…just kidding. Least privilege, though.'); } },
+    ls: { hidden: true, f: function () { return C('c-acc', 'about/  experience/  lab/  certs/') + '  cv.pdf  contact.txt'; } },
+    echo: { hidden: true, f: function (args) { return esc(args.join(' ')); } }
+  };
+  var ALIAS = { exp: 'experience', cls: 'clear', quit: 'exit', '?': 'help', man: 'help', 'get-help': 'help', 'test-connection': 'ping', resume: 'cv' };
+
+  function run(line) {
+    var raw = line.trim();
+    print(PS + ' ' + esc(raw), 'o-cmd');
+    if (!raw) return;
+    hist.push(raw); hi = hist.length;
+    var parts = raw.split(/\s+/), name = parts[0].toLowerCase(), args = parts.slice(1);
+    name = ALIAS[name] || name;
+    var c = CMDS[name];
+    if (!c) { print(C('c-bad', esc(parts[0]) + ': command not found') + C('c-dim', ' — try "help"')); return; }
+    var res = c.f(args);
+    if (res != null) print(res);
+  }
+  $('#term-form').addEventListener('submit', function (e) { e.preventDefault(); run(input.value); input.value = ''; });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowUp') { if (hi > 0) { hi--; input.value = hist[hi]; } e.preventDefault(); }
+    else if (e.key === 'ArrowDown') { if (hi < hist.length - 1) { hi++; input.value = hist[hi]; } else { hi = hist.length; input.value = ''; } e.preventDefault(); }
+    else if (e.key === 'Tab') {
+      e.preventDefault();
+      var v = input.value.toLowerCase();
+      if (!v) return;
+      var m = Object.keys(CMDS).filter(function (k) { return !CMDS[k].hidden && k.indexOf(v) === 0; });
+      if (m.length === 1) input.value = m[0] + ' ';
+      else if (m.length > 1) print(PS + ' ' + esc(input.value) + '\n' + m.join('  '));
+    }
+    else if (e.key === 'l' && e.ctrlKey) { e.preventDefault(); out.innerHTML = ''; }
+  });
+
+  /* ---------------- Init ---------------- */
+  $('#year').textContent = new Date().getFullYear();
+  renderAll();
+})();

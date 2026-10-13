@@ -1,689 +1,269 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panayotis A. Kola — IT Administrator</title>
-<meta name="description" content="Panayotis A. Kola, IT Administrator based in Athens, Greece. 9+ years in IT support and administration: user access, endpoint management and security, Windows Server and Active Directory.">
+<meta name="description" content="Panayotis A. Kola — IT Administrator in Athens, Greece. 9+ years in IT support and administration: identity and access, endpoint management and security, Windows Server and Active Directory home lab.">
+<meta name="theme-color" content="#070b14">
+<meta property="og:title" content="Panayotis A. Kola — IT Administrator">
+<meta property="og:description" content="9+ years in IT support and administration · Identity & access · Endpoint management · Windows Server & AD home lab.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b14'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' dominant-baseline='middle' font-family='monospace' font-weight='700' font-size='30' fill='%2338bdf8'%3EPK%3C/text%3E%3C/svg%3E">
+<script>
+  /* Apply saved theme/language before paint to avoid a flash */
+  (function () {
+    var t = null, l = null;
+    try { t = localStorage.getItem('pk-theme'); l = localStorage.getItem('pk-lang'); } catch (e) {}
+    if (!t) t = (window.matchMedia && matchMedia('(prefers-color-scheme: light)').matches) ? 'light' : 'dark';
+    if (!l) l = ((navigator.language || 'en').toLowerCase().indexOf('el') === 0) ? 'el' : 'en';
+    document.documentElement.setAttribute('data-theme', t);
+    document.documentElement.setAttribute('lang', l);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --navy:#1A2332;
-    --navy-deep:#10151F;
-    --paper:#0E1420;
-    --paper-dim:#1B2333;
-    --ink:#E8EBF0;
-    --ink-soft:#AEB8C9;
-    --ink-faint:#717C8E;
-    --line:#2A3447;
-    --line-on-navy:#2E3A4F;
-    --accent:#5B9BC4;
-    --accent-deep:#7FB3D9;
-    --gold:#C9A246;
-    --white:#FFFFFF;
-    --card-bg:#171F2D;
-    --serif:'Source Serif 4', serif;
-    --sans:'Inter', sans-serif;
-    --mono:'IBM Plex Mono', monospace;
-  }
-
-  *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    background:var(--paper);
-    color:var(--ink);
-    font-family:var(--sans);
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
-  }
-  a{color:var(--accent-deep); text-decoration:none;}
-  a:hover{text-decoration:underline;}
-  a:focus-visible, button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px;}
-
-  .wrap{max-width:920px; margin:0 auto; padding:0 32px;}
-
-  /* ---------- Top bar ---------- */
-  .topbar{
-    background:var(--navy);
-    border-bottom:1px solid var(--line-on-navy);
-  }
-  .topbar-inner{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 32px;
-    max-width:920px; margin:0 auto;
-    font-size:13px;
-    color:#AEB8C9;
-  }
-  .topbar-left{font-weight:600; letter-spacing:0.02em; color:var(--white);}
-  .topbar-right a{color:#AEB8C9; margin-left:24px; font-weight:500;}
-  .topbar-right a:hover{color:var(--white); text-decoration:none;}
-
-  /* ---------- Hero ---------- */
-  .hero{
-    background:var(--navy);
-    background-image:linear-gradient(165deg, var(--navy) 0%, var(--navy-deep) 100%);
-    color:var(--white);
-    padding:64px 0 0;
-  }
-  .hero-inner{padding-bottom:48px;}
-  .hero-top{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    gap:32px; flex-wrap:wrap;
-    margin-bottom:40px;
-  }
-  h1{
-    font-family:var(--serif);
-    font-weight:600;
-    font-size:clamp(2.2rem, 5vw, 3.1rem);
-    letter-spacing:-0.01em;
-    line-height:1.1;
-    margin-bottom:8px;
-    color:var(--white);
-  }
-  .role-line{
-    font-size:clamp(1rem, 2vw, 1.2rem);
-    color:#C3CCDC;
-    font-weight:500;
-  }
-  .role-line .sep{color:var(--gold); margin:0 8px;}
-
-  .contact-block{
-    text-align:right;
-    font-size:13.5px;
-    color:#AEB8C9;
-    line-height:1.9;
-    flex-shrink:0;
-  }
-  .contact-block a{color:#C3CCDC;}
-  .contact-block a:hover{color:var(--white);}
-
-  /* Domains of ownership strip */
-  .domains-strip{
-    display:grid;
-    grid-template-columns:repeat(4, 1fr);
-    border-top:1px solid var(--line-on-navy);
-  }
-  .domain-cell{
-    padding:22px 28px;
-    border-right:1px solid var(--line-on-navy);
-  }
-  .domain-cell:last-child{border-right:none;}
-  .domain-label{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.07em;
-    color:var(--gold);
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  .domain-value{
-    font-size:0.93rem;
-    color:#DDE3ED;
-    font-weight:500;
-  }
-
-  /* ---------- Section framing ---------- */
-  section{padding:56px 0;}
-  section + section{border-top:1px solid var(--line);}
-
-  .section-head{
-    margin-bottom:32px;
-  }
-  .section-label{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.08em;
-    color:var(--accent-deep);
-    font-weight:700;
-    margin-bottom:6px;
-  }
-  .section-head h2{
-    font-family:var(--serif);
-    font-size:1.5rem;
-    font-weight:600;
-    color:var(--ink);
-  }
-
-  /* ---------- Summary ---------- */
-  .summary-text{
-    font-size:1.08rem;
-    color:var(--ink-soft);
-    max-width:700px;
-    line-height:1.75;
-  }
-
-  /* ---------- Security & Access Stack ---------- */
-  .stack-grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:18px;
-  }
-  .stack-card{
-    background:var(--card-bg);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:24px;
-  }
-  .stack-card-icon{
-    width:36px; height:36px;
-    border-radius:7px;
-    background:var(--paper-dim);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:16px;
-    color:var(--accent-deep);
-  }
-  .stack-card h3{
-    font-size:0.95rem;
-    font-weight:700;
-    color:var(--ink);
-    margin-bottom:10px;
-  }
-  .platform-tags{display:flex; flex-wrap:wrap; gap:6px;}
-  .platform-tag{
-    font-family:var(--mono);
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--ink-soft);
-    background:var(--paper-dim);
-    border:1px solid var(--line);
-    padding:4px 9px;
-    border-radius:4px;
-  }
-
-  /* ---------- Experience ---------- */
-  .role-card{
-    border:1px solid var(--line);
-    border-radius:8px;
-    background:var(--card-bg);
-    margin-bottom:20px;
-    overflow:hidden;
-  }
-  .role-card-head{
-    padding:22px 26px 18px;
-    border-bottom:1px solid var(--line);
-  }
-  .role-top-row{
-    display:flex; justify-content:space-between; align-items:flex-start;
-    gap:16px; flex-wrap:wrap;
-    margin-bottom:10px;
-  }
-  .role-title-group{display:flex; flex-direction:column;}
-  .role-title{
-    font-family:var(--serif);
-    font-size:1.2rem;
-    font-weight:600;
-    color:var(--ink);
-  }
-  .role-org{
-    font-size:0.92rem;
-    color:var(--ink-soft);
-    margin-top:2px;
-  }
-  .role-org .org-name{color:var(--accent-deep); font-weight:600;}
-  .role-period{
-    font-family:var(--mono);
-    font-size:11.5px;
-    font-weight:500;
-    color:var(--ink-faint);
-    background:var(--paper-dim);
-    padding:5px 11px;
-    border-radius:20px;
-    white-space:nowrap;
-  }
-  .role-scope{
-    font-size:0.88rem;
-    color:var(--ink-soft);
-    font-style:italic;
-  }
-  .role-scope b{font-style:normal; color:var(--ink); font-weight:600;}
-
-  .role-card-body{padding:20px 26px 24px;}
-  .role-card-body ul{list-style:none;}
-  .role-card-body li{
-    position:relative;
-    padding-left:20px;
-    margin-bottom:11px;
-    color:var(--ink-soft);
-    font-size:0.95rem;
-    line-height:1.65;
-  }
-  .role-card-body li:last-child{margin-bottom:0;}
-  .role-card-body li::before{
-    content:"";
-    position:absolute; left:0; top:0.55em;
-    width:7px; height:7px;
-    border-radius:50%;
-    background:var(--accent);
-  }
-
-  .sub-role{
-    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    font-size:0.9rem; font-weight:600; color:var(--ink);
-    margin:4px 0 12px;
-  }
-  .role-card-body ul + .sub-role{margin-top:20px; padding-top:18px; border-top:1px solid var(--line);}
-  .sub-period{font-family:var(--mono); font-size:11.5px; font-weight:500; color:var(--ink-faint);}
-
-  /* ---------- Credentials (Education / Courses) ---------- */
-  .grid-2{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
-  }
-  .cred-card{
-    background:var(--card-bg);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:24px;
-  }
-  .cred-card h3{
-    font-size:11px;
-    text-transform:uppercase;
-    letter-spacing:0.07em;
-    color:var(--ink-faint);
-    font-weight:700;
-    margin-bottom:16px;
-  }
-  .cred-row{
-    padding:10px 0;
-    border-bottom:1px solid var(--paper-dim);
-  }
-  .cred-row:last-child{border-bottom:none; padding-bottom:0;}
-  .cred-row:first-child{padding-top:0;}
-  .cred-name{font-size:0.93rem; color:var(--ink); font-weight:600;}
-  .cred-meta{
-    font-size:0.83rem; color:var(--ink-faint);
-    margin-top:3px;
-    display:flex; justify-content:space-between; gap:10px;
-  }
-  .cred-status{
-    font-size:10.5px;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.04em;
-    padding:2px 8px;
-    border-radius:10px;
-    background:rgba(91,189,138,0.16);
-    color:#7FCB9C;
-    white-space:nowrap;
-  }
-  .cred-status.pending{background:rgba(201,162,70,0.18); color:var(--gold);}
-
-  .tag-row{display:flex; flex-wrap:wrap; gap:8px;}
-  .simple-tag{
-    font-size:12.5px;
-    font-weight:600;
-    color:var(--ink-soft);
-    background:var(--paper-dim);
-    border:1px solid var(--line);
-    padding:6px 13px;
-    border-radius:20px;
-  }
-
-  /* ---------- Footer ---------- */
-  footer{
-    background:var(--navy);
-    color:#AEB8C9;
-    text-align:center;
-    padding:32px 0;
-    font-size:13px;
-  }
-
-  /* ---------- Responsive ---------- */
-  @media (max-width:760px){
-    .domains-strip{grid-template-columns:repeat(2, 1fr);}
-    .domain-cell:nth-child(2){border-right:none;}
-    .domain-cell{border-bottom:1px solid var(--line-on-navy);}
-    .stack-grid{grid-template-columns:1fr;}
-    .grid-2{grid-template-columns:1fr;}
-    .hero-top{flex-direction:column;}
-    .contact-block{text-align:left;}
-    h1{font-size:clamp(1.9rem, 8vw, 2.4rem);}
-    section{padding:44px 0;}
-  }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
-<div class="topbar">
-  <div class="topbar-inner">
-    <span class="topbar-left">P. KOLA</span>
-    <div class="topbar-right">
-      <a href="mailto:kola.panagiotis@gmail.com">Email</a>
-      <a href="https://www.linkedin.com/in/panayotisarturkola/" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/panoskola/home-lab" target="_blank" rel="noopener">GitHub</a>
+<canvas id="net-bg" aria-hidden="true"></canvas>
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="scroll-progress" aria-hidden="true"><span></span></div>
+
+<!-- ============ NAV ============ -->
+<header class="nav" id="top">
+  <div class="nav-inner">
+    <a href="#hero" class="brand" aria-label="Home"><span class="brand-mark">PK</span><span class="brand-text">p.kola<span class="blink">_</span></span></a>
+    <nav class="nav-links" id="nav-links" aria-label="Primary">
+      <a href="#about" data-i18n="nav.about">About</a>
+      <a href="#stack" data-i18n="nav.stack">Stack</a>
+      <a href="#experience" data-i18n="nav.experience">Experience</a>
+      <a href="#lab" data-i18n="nav.lab">Home Lab</a>
+      <a href="#certs" data-i18n="nav.certs">Credentials</a>
+      <a href="#contact" data-i18n="nav.contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="term-btn" type="button" aria-label="Open terminal" title="Terminal ( ` )">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+      </button>
+      <button class="icon-btn lang-btn" id="lang-btn" type="button" data-i18n-aria="lang.toggle" aria-label="Αλλαγή σε Ελληνικά"><span class="lang-on">EN</span><span class="lang-sep">/</span><span class="lang-off">ΕΛ</span></button>
+      <button class="icon-btn" id="theme-btn" type="button" data-i18n-aria="theme.toggle" aria-label="Toggle light / dark theme">
+        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <button class="icon-btn menu-btn" id="menu-btn" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav-links">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
-</div>
+</header>
 
-<div class="hero">
-  <div class="wrap hero-inner">
-    <div class="hero-top">
-      <div>
-        <h1>Panayotis A. Kola</h1>
-        <div class="role-line">IT Administrator <span class="sep">·</span> Systems, Access &amp; Endpoint Management</div>
+<main>
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="kicker reveal"><span class="pulse-dot"></span><span data-i18n="hero.kicker">Athens, Greece · 9+ years in IT</span></p>
+      <h1 class="reveal glitch" data-text="Panayotis A. Kola">Panayotis A. Kola</h1>
+      <p class="typed-line reveal"><span class="prompt">&gt;</span> <span id="typed"></span><span class="caret"></span></p>
+      <p class="tagline reveal" data-i18n="hero.tagline">I keep users productive and systems secure — from the service desk to the domain controller.</p>
+      <div class="hero-cta reveal">
+        <a class="btn btn-primary" href="assets/cv/Panayotis_Kola_CV.pdf" download>
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          <span data-i18n="hero.cv">Download CV</span></a>
+        <button class="btn btn-ghost" type="button" id="term-btn-hero">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          <span data-i18n="hero.terminal">Open terminal</span></button>
+        <a class="btn btn-ghost" href="#contact" data-i18n="hero.contact">Get in touch</a>
       </div>
-      <div class="contact-block">
-        Athens 11744, Greece<br>
-        <a href="mailto:kola.panagiotis@gmail.com">kola.panagiotis@gmail.com</a><br>
-        Greek (Native) · English (B2)
+      <p class="hint reveal" data-i18n-html="hero.hint">Tip: press <kbd>`</kbd> anywhere to open the terminal</p>
+    </div>
+
+    <div class="hero-card reveal" aria-hidden="true">
+      <div class="win-bar"><span></span><span></span><span></span><em>PowerShell — DC01</em></div>
+      <pre class="hero-term" id="hero-term"></pre>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stats reveal">
+      <div class="stat"><span class="stat-num" data-count="9" data-suffix="+">0</span><span class="stat-label" data-i18n="stat.years">Years in IT</span></div>
+      <div class="stat"><span class="stat-num" data-count="22">0</span><span class="stat-label" data-i18n="stat.countries">Countries supported</span></div>
+      <div class="stat"><span class="stat-num" data-count="6">0</span><span class="stat-label" data-i18n="stat.tz">Time zones</span></div>
+      <div class="stat"><span class="stat-num" data-count="3">0</span><span class="stat-label" data-i18n="stat.apple">Years Apple-certified repair</span></div>
+    </div>
+  </div>
+  <a href="#about" class="scroll-cue" aria-label="Scroll down"><span></span></a>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="section-label" data-i18n="about.label">About</span><h2 data-i18n="about.title">Profile</h2></div>
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p data-i18n="about.p1"></p>
+        <p data-i18n="about.p2"></p>
+      </div>
+      <div class="about-facts">
+        <div class="fact glass reveal"><span class="fact-ico">01</span><div><h3 data-i18n="about.f1t"></h3><p data-i18n="about.f1"></p></div></div>
+        <div class="fact glass reveal"><span class="fact-ico">02</span><div><h3 data-i18n="about.f2t"></h3><p data-i18n="about.f2"></p></div></div>
+        <div class="fact glass reveal"><span class="fact-ico">03</span><div><h3 data-i18n="about.f3t"></h3><p data-i18n="about.f3"></p></div></div>
       </div>
     </div>
   </div>
-  <div class="wrap" style="padding:0;">
-    <div class="domains-strip">
-      <div class="domain-cell">
-        <div class="domain-label">Identity &amp; Access</div>
-        <div class="domain-value">Onboarding, MFA, RBAC</div>
+</section>
+
+<!-- ============ STACK ============ -->
+<section id="stack" class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="section-label" data-i18n="stack.label">Tools &amp; Platforms</span><h2 data-i18n="stack.title">Technical Stack</h2></div>
+    <div class="stack-grid" id="stack-grid"></div>
+  </div>
+</section>
+
+<!-- ============ EXPERIENCE ============ -->
+<section id="experience" class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="section-label" data-i18n="exp.label">Track Record</span><h2 data-i18n="exp.title">Experience</h2></div>
+    <ol class="timeline" id="timeline"></ol>
+  </div>
+</section>
+
+<!-- ============ LAB ============ -->
+<section id="lab" class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="section-label" data-i18n="lab.label">Hands-on</span><h2 data-i18n="lab.title">Windows Server &amp; AD Home Lab</h2></div>
+    <p class="lab-intro reveal" data-i18n="lab.intro"></p>
+
+    <div class="lab-grid">
+      <div class="topo glass reveal">
+        <h3 class="mini-head" data-i18n="lab.topo">Topology</h3>
+        <svg class="topo-svg" viewBox="0 0 560 330" role="img" aria-label="Lab topology: Hyper-V host with internal switch LAB on 192.168.10.0/24, DC01 at .10, CLIENT01 at .50, gateway .1 intentionally absent">
+          <defs>
+            <linearGradient id="g-line" x1="0" x2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-2)"/></linearGradient>
+          </defs>
+          <!-- host frame -->
+          <rect x="8" y="8" width="544" height="314" rx="16" class="t-host"/>
+          <text x="26" y="34" class="t-cap">HOST · Windows 11 + Hyper-V · 32 GB RAM</text>
+          <!-- switch -->
+          <rect x="170" y="62" width="220" height="46" rx="10" class="t-switch"/>
+          <text x="280" y="82" class="t-name" text-anchor="middle">vSwitch “LAB” (Internal)</text>
+          <text x="280" y="99" class="t-ip" text-anchor="middle">192.168.10.0/24</text>
+          <!-- links -->
+          <path d="M240 108 V160 H120 V210" class="t-link"/>
+          <path d="M320 108 V160 H440 V210" class="t-link"/>
+          <path d="M280 108 V240" class="t-link t-dead"/>
+          <path d="M240 108 V160 H120 V210" class="t-packet"/>
+          <path d="M320 108 V160 H440 V210" class="t-packet t-packet-2"/>
+          <!-- DC01 -->
+          <rect x="28" y="210" width="184" height="88" rx="12" class="t-node"/>
+          <text x="120" y="236" class="t-name" text-anchor="middle">DC01</text>
+          <text x="120" y="255" class="t-sub" text-anchor="middle">Windows Server 2022</text>
+          <text x="120" y="271" class="t-sub" text-anchor="middle">AD DS · DNS · lab.local</text>
+          <text x="120" y="289" class="t-ip" text-anchor="middle">192.168.10.10</text>
+          <circle cx="198" cy="222" r="5" class="t-led"/>
+          <!-- CLIENT01 -->
+          <rect x="348" y="210" width="184" height="88" rx="12" class="t-node"/>
+          <text x="440" y="236" class="t-name" text-anchor="middle">CLIENT01</text>
+          <text x="440" y="255" class="t-sub" text-anchor="middle">Windows 11 Enterprise</text>
+          <text x="440" y="271" class="t-sub" text-anchor="middle">domain-joined · lab.local</text>
+          <text x="440" y="289" class="t-ip" text-anchor="middle">192.168.10.50</text>
+          <circle cx="518" cy="222" r="5" class="t-led"/>
+          <!-- gateway -->
+          <rect x="230" y="240" width="100" height="44" rx="10" class="t-ghost"/>
+          <text x="280" y="259" class="t-sub" text-anchor="middle">GW .1</text>
+          <text x="280" y="275" class="t-x" text-anchor="middle">✕ no reply</text>
+        </svg>
+        <p class="topo-note"><span class="t-dash"></span><span data-i18n="lab.gw">gateway · intentionally absent</span></p>
       </div>
-      <div class="domain-cell">
-        <div class="domain-label">Endpoint Security</div>
-        <div class="domain-value">Patching &amp; EDR alerts</div>
+
+      <div class="roadmap glass reveal">
+        <h3 class="mini-head" data-i18n="lab.roadmap">Build log &amp; roadmap</h3>
+        <ul class="road" id="roadmap"></ul>
+        <a class="btn btn-ghost btn-sm" href="https://github.com/panoskola/home-lab" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.29-1.69-1.29-1.69-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.69 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.42-2.7 5.39-5.26 5.68.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"/></svg>
+          <span data-i18n="lab.repo">View runbooks on GitHub</span></a>
       </div>
-      <div class="domain-cell">
-        <div class="domain-label">Device Management</div>
-        <div class="domain-value">MDM, lifecycle, imaging</div>
+    </div>
+
+    <h3 class="sub-head reveal" data-i18n="lab.broke">What broke, and what it taught me</h3>
+    <div class="incidents" id="incidents"></div>
+  </div>
+</section>
+
+<!-- ============ CERTS ============ -->
+<section id="certs" class="section">
+  <div class="wrap">
+    <div class="section-head reveal"><span class="section-label" data-i18n="certs.label">Background</span><h2 data-i18n="certs.title">Education &amp; Credentials</h2></div>
+    <div class="cert-grid">
+      <div class="glass card-pad reveal">
+        <h3 class="mini-head" data-i18n="certs.courses">Certifications &amp; Training</h3>
+        <ul class="cert-list" id="cert-list"></ul>
       </div>
-      <div class="domain-cell">
-        <div class="domain-label">Scale Supported</div>
-        <div class="domain-value">22 countries · 6 time zones</div>
+      <div class="cert-side">
+        <div class="glass card-pad reveal">
+          <h3 class="mini-head" data-i18n="certs.edu">Education</h3>
+          <div class="edu" id="edu"></div>
+        </div>
+        <div class="glass card-pad reveal">
+          <h3 class="mini-head" data-i18n="certs.lang">Languages</h3>
+          <div class="chips" id="langs"></div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-<div class="wrap">
-
-  <section id="summary">
-    <div class="section-head">
-      <div class="section-label">Summary</div>
-      <h2>Profile</h2>
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="section">
+  <div class="wrap">
+    <div class="contact glass reveal">
+      <span class="section-label" data-i18n="contact.label">Contact</span>
+      <h2 data-i18n="contact.title">Let’s talk</h2>
+      <p data-i18n="contact.text"></p>
+      <div class="contact-links">
+        <a class="btn btn-primary" href="mailto:kola.panagiotis@gmail.com">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>
+          <span data-i18n="contact.email">Email me</span></a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/panayotisarturkola/" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/panoskola" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="assets/cv/Panayotis_Kola_CV.pdf" download data-i18n="hero.cv">Download CV</a>
+      </div>
+      <p class="mail-line"><span class="prompt">$</span> kola.panagiotis@gmail.com</p>
     </div>
-    <p class="summary-text">
-      IT Administrator with 9+ years in IT support and administration. At Blueground I moved from IT Support Officer to IT Administrator, supporting users in 22 countries and six time zones through Jira Service Management and managing accounts, access and devices across Google Workspace, JumpCloud MDM, SentinelOne and Trend Micro Apex One. At Dialectica I administered Microsoft 365, Google Workspace and NinjaRMM. I run a Windows Server 2022 and Active Directory home lab on Hyper-V, document every build and fix as a runbook, and I am preparing for CompTIA Network+.
-    </p>
-  </section>
+  </div>
+</section>
+</main>
 
-  <section id="stack">
-    <div class="section-head">
-      <div class="section-label">Tools &amp; Platforms</div>
-      <h2>Technical Stack</h2>
-    </div>
-    <div class="stack-grid">
-      <div class="stack-card">
-        <div class="stack-card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
-        </div>
-        <h3>Identity &amp; Access Management</h3>
-        <div class="platform-tags">
-          <span class="platform-tag">Google Workspace Admin</span>
-          <span class="platform-tag">Microsoft 365 Admin</span>
-          <span class="platform-tag">MFA</span>
-          <span class="platform-tag">RBAC</span>
-        </div>
-      </div>
-      <div class="stack-card">
-        <div class="stack-card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L4 6v6c0 5.5 3.8 8.7 8 10 4.2-1.3 8-4.5 8-10V6l-8-4z"/></svg>
-        </div>
-        <h3>Endpoint Security</h3>
-        <div class="platform-tags">
-          <span class="platform-tag">SentinelOne</span>
-          <span class="platform-tag">Trend Micro Apex</span>
-          <span class="platform-tag">Bitdefender</span>
-          <span class="platform-tag">Patch Management</span>
-        </div>
-      </div>
-      <div class="stack-card">
-        <div class="stack-card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg>
-        </div>
-        <h3>Device &amp; Fleet Management</h3>
-        <div class="platform-tags">
-          <span class="platform-tag">JumpCloud MDM</span>
-          <span class="platform-tag">NinjaRMM</span>
-          <span class="platform-tag">Snipe-IT</span>
-          <span class="platform-tag">Jira Service Management</span>
-          <span class="platform-tag">Windows · macOS · iOS</span>
-        </div>
-      </div>
-      <div class="stack-card">
-        <div class="stack-card-icon">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="7" rx="1.5"/><rect x="2" y="14" width="20" height="7" rx="1.5"/><line x1="6" y1="6.5" x2="6.01" y2="6.5"/><line x1="6" y1="17.5" x2="6.01" y2="17.5"/></svg>
-        </div>
-        <h3>Servers &amp; Networking</h3>
-        <div class="platform-tags">
-          <span class="platform-tag">Windows Server 2022 (lab)</span>
-          <span class="platform-tag">AD DS · Group Policy</span>
-          <span class="platform-tag">Hyper-V</span>
-          <span class="platform-tag">TCP/IP · DNS · DHCP</span>
-          <span class="platform-tag">3CX</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="experience">
-    <div class="section-head">
-      <div class="section-label">Track Record</div>
-      <h2>Experience</h2>
-    </div>
-
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">Automation Engineer</span>
-            <span class="role-org"><span class="org-name">Velcotech G.P.</span> · Athens</span>
-          </div>
-          <span class="role-period">Mar 2025 — Feb 2026</span>
-        </div>
-        <div class="role-scope">Field role outside IT: <b>electrical automation and control systems</b> for hotel and spa installations.</div>
-      </div>
-      <div class="role-card-body">
-        <ul>
-          <li>Worked on client sites as part of an installation crew, diagnosing and repairing faults on live systems to a fixed schedule, where downtime directly affected the client's guests.</li>
-          <li>Documented installed configurations for handover and coordinated daily with the crew, contractors and client staff.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">IT Administrator</span>
-            <span class="role-org"><span class="org-name">Dialectica</span> · Piraeus</span>
-          </div>
-          <span class="role-period">Jan 2025 — Mar 2025</span>
-        </div>
-        <div class="role-scope">Administration and end-user support across <b>Microsoft 365, Google Workspace and NinjaRMM</b>.</div>
-      </div>
-      <div class="role-card-body">
-        <ul>
-          <li>Provided on-site and remote end-user support via TeamViewer across Windows and macOS.</li>
-          <li>Handled onboarding, offboarding and access roles across Google Workspace and Jira, and administered Microsoft 365, Atlassian, Slack, Zoom and NinjaRMM.</li>
-          <li>Tracked IT assets in Snipe-IT and monitored endpoint security alerts in Bitdefender.</li>
-          <li>Configured and maintained hardware, software, printers and scanners, and resolved high-priority incidents to restore service quickly.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">IT Administrator / IT Support Officer</span>
-            <span class="role-org"><span class="org-name">Blueground</span> · Athens</span>
-          </div>
-          <span class="role-period">Nov 2021 — Dec 2024</span>
-        </div>
-        <div class="role-scope">Supported a distributed company across <b>22 countries and six time zones</b>; promoted from IT Support Officer to IT Administrator.</div>
-      </div>
-      <div class="role-card-body">
-        <div class="sub-role"><span>Information Technology Administrator</span><span class="sub-period">Feb 2023 — Dec 2024</span></div>
-        <ul>
-          <li>Owned the IT asset lifecycle for office and remote staff — procurement, inventory, provisioning and secure decommissioning — integrated with JumpCloud.</li>
-          <li>Standardised desktop images and network configurations and documented Desktop, LAN and WAN standards, which made troubleshooting faster and more consistent.</li>
-          <li>Kept endpoints patched and healthy with SentinelOne and Trend Micro Apex One, and followed up on security alerts.</li>
-          <li>Suggested and contributed to internal process improvements, and presented them to other teams.</li>
-        </ul>
-        <div class="sub-role"><span>Information Technology Support Officer</span><span class="sub-period">Nov 2021 — Feb 2023</span></div>
-        <ul>
-          <li>First point of contact for users across 22 countries and six time zones through Jira Service Management: triaged incidents, met SLAs and escalated critical issues with full notes.</li>
-          <li>Managed user accounts and access across Google Workspace, Slack and Jira, and devices and policies through JumpCloud MDM.</li>
-          <li>Administered and supported the company cloud telephone system (3CX): extensions, user issues and day-to-day changes.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">Technical Support Engineer</span>
-            <span class="role-org"><span class="org-name">iSystem Greece</span> · Halandri</span>
-          </div>
-          <span class="role-period">Dec 2018 — Nov 2021</span>
-        </div>
-        <div class="role-scope">Apple Certified Macintosh and iOS Technician handling hardware and software repair.</div>
-      </div>
-      <div class="role-card-body">
-        <ul>
-          <li>Diagnosed and repaired macOS and iOS devices as an Apple Certified Macintosh and iOS Technician, including component-level hardware work.</li>
-          <li>Dealt directly with customers at the service desk: understood the problem, explained the fix and the options, and handled difficult conversations calmly.</li>
-          <li>Resolved escalated issues through structured troubleshooting and defined escalation paths, within service SLAs.</li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">IT Store Support</span>
-            <span class="role-org"><span class="org-name">Retail World A.E. (Public)</span> · Athens</span>
-          </div>
-          <span class="role-period">Jul 2016 — Nov 2018</span>
-        </div>
-        <div class="role-scope">Front-line support for POS and in-store systems, meeting monthly KPI targets.</div>
-      </div>
-      <div class="role-card-body">
-        <ul>
-          <li>Front-line support for laptops, desktops and mobile devices, guiding non-technical customers to a solution.</li>
-          <li>Supported point-of-sale and in-store IT systems: device configuration and preventive maintenance to reduce downtime.</li>
-          <li>Met monthly KPIs for customer satisfaction and response times.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <div class="section-head">
-      <div class="section-label">Hands-on</div>
-      <h2>Projects</h2>
-    </div>
-    <div class="role-card">
-      <div class="role-card-head">
-        <div class="role-top-row">
-          <div class="role-title-group">
-            <span class="role-title">Windows Server &amp; Active Directory Home Lab</span>
-            <span class="role-org"><a class="org-name" href="https://github.com/panoskola/home-lab" target="_blank" rel="noopener">github.com/panoskola/home-lab</a></span>
-          </div>
-          <span class="role-period">2026 — present</span>
-        </div>
-      </div>
-      <div class="role-card-body">
-        <ul>
-          <li>Built and maintain a lab on Hyper-V: Windows Server 2022 domain controller with AD DS and integrated DNS, a domain-joined Windows 11 client, users, groups, OUs and Group Policy.</li>
-          <li>Run deliberate break/fix exercises — IP and DNS misconfiguration, failed domain joins — and diagnose them with nltest, dcdiag, ipconfig and Event Viewer.</li>
-          <li>Document every build and fix as a runbook in Git: what broke, how it was verified and what I learned.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section id="more">
-    <div class="section-head">
-      <div class="section-label">Background</div>
-      <h2>Education &amp; Credentials</h2>
-    </div>
-
-    <div class="grid-2" style="margin-bottom:20px;">
-      <div class="cred-card">
-        <h3>Education</h3>
-        <div class="cred-row">
-          <div class="cred-name">Vocational Diploma (EQF Level 5), Electrical Automation &amp; Robotics</div>
-          <div class="cred-meta">
-            <span>IEK Delta, Athens</span>
-            <span>2014 — 2016</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="cred-card">
-        <h3>Courses &amp; Certifications</h3>
-        <div class="cred-row">
-          <div class="cred-name">CompTIA Network+ (N10-009)</div>
-          <div class="cred-meta">
-            <span>CompTIA</span>
-            <span class="cred-status pending">In Preparation</span>
-          </div>
-        </div>
-        <div class="cred-row">
-          <div class="cred-name">Apple Certified Macintosh Technician (ACMT)</div>
-          <div class="cred-meta">
-            <span>Apple</span>
-            <span class="cred-status">Completed</span>
-          </div>
-        </div>
-        <div class="cred-row">
-          <div class="cred-name">Apple Certified iOS Technician &amp; Apple Professional Support</div>
-          <div class="cred-meta">
-            <span>Apple</span>
-            <span class="cred-status">Completed</span>
-          </div>
-        </div>
-        <div class="cred-row">
-          <div class="cred-name">IT Security Foundations: Network Security</div>
-          <div class="cred-meta">
-            <span>LinkedIn Learning</span>
-            <span class="cred-status">Completed</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="grid-2">
-      <div class="cred-card">
-        <h3>Languages</h3>
-        <div class="tag-row">
-          <span class="simple-tag">Greek — Native</span>
-          <span class="simple-tag">English — B2 (professional working)</span>
-        </div>
-      </div>
-      <div class="cred-card">
-        <h3>Outside Work</h3>
-        <div class="tag-row">
-          <span class="simple-tag">Video Games</span>
-          <span class="simple-tag">Sports</span>
-          <span class="simple-tag">Traveling</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-</div>
-
-<footer>
-  References available on request
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> Panayotis A. Kola</span>
+    <span data-i18n="footer">Built by hand with HTML, CSS &amp; vanilla JavaScript · Hosted on GitHub Pages</span>
+  </div>
 </footer>
 
+<!-- ============ TERMINAL ============ -->
+<div class="term-overlay" id="term" role="dialog" aria-modal="true" aria-labelledby="term-title" hidden>
+  <div class="term-window">
+    <div class="win-bar">
+      <button class="dot-close" id="term-close" type="button" data-i18n-aria="term.close" aria-label="Close terminal"></button><span></span><span></span>
+      <em id="term-title" data-i18n="term.title">pkola@lab: ~</em>
+    </div>
+    <div class="term-body" id="term-body">
+      <div id="term-out"></div>
+      <form class="term-line" id="term-form" autocomplete="off">
+        <label for="term-input" class="term-ps">pkola@lab:~$</label>
+        <input id="term-input" type="text" spellcheck="false" autocapitalize="off" autocomplete="off">
+      </form>
+    </div>
+  </div>
+</div>
+
+<noscript><style>.reveal{opacity:1!important;transform:none!important}</style></noscript>
+<script src="assets/js/content.js"></script>
+<script src="assets/js/main.js"></script>
 </body>
 </html>
