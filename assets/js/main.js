@@ -1,5 +1,5 @@
 /* ==========================================================
-   Panayotis A. Kola — site logic (vanilla JS, no build step)
+   Panayotis Kola — site logic (vanilla JS, no build step)
    ========================================================== */
 (function () {
   'use strict';
@@ -23,7 +23,7 @@
     $$('[data-i18n]').forEach(function (el) { el.textContent = t(el.getAttribute('data-i18n')); });
     $$('[data-i18n-html]').forEach(function (el) { el.innerHTML = t(el.getAttribute('data-i18n-html')); });
     $$('[data-i18n-aria]').forEach(function (el) { el.setAttribute('aria-label', t(el.getAttribute('data-i18n-aria'))); });
-    document.title = lang() === 'el' ? 'Παναγιώτης Α. Κόλα — IT Administrator' : 'Panayotis A. Kola — IT Administrator';
+    document.title = lang() === 'el' ? 'Παναγιώτης Κόλα — IT Administrator' : 'Panayotis Kola — IT Administrator';
   }
 
   /* ---------------- Renderers ---------------- */
@@ -434,7 +434,7 @@
       return sectionList('Available commands', rows);
     } },
     whoami: { d: 'who is this', f: function () {
-      return C('c-acc', 'Panayotis A. Kola') + ' — IT Administrator\n' + C('c-dim', 'Athens, Greece · 9+ years in IT support & administration');
+      return C('c-acc', 'Panayotis Kola') + ' — IT Administrator\n' + C('c-dim', 'Athens, Greece · 9+ years in IT support & administration');
     } },
     about: { d: 'short profile', f: function () { return t('about.p1') + '\n\n' + t('about.p2'); } },
     skills: { d: 'technical stack', f: function () {
@@ -458,7 +458,7 @@
     } },
     contact: { d: 'how to reach me', f: function () {
       return 'email     ' + '<a href="mailto:kola.panagiotis@gmail.com">kola.panagiotis@gmail.com</a>\n' +
-        'linkedin  <a href="https://www.linkedin.com/in/panayotisarturkola/" target="_blank" rel="noopener">linkedin.com/in/panayotisarturkola</a>\n' +
+        'linkedin  <a href="https://www.linkedin.com/in/panayotiskola/" target="_blank" rel="noopener">linkedin.com/in/panayotiskola</a>\n' +
         'github    <a href="https://github.com/panoskola" target="_blank" rel="noopener">github.com/panoskola</a>';
     } },
     cv: { d: 'download CV (PDF)', f: function () {

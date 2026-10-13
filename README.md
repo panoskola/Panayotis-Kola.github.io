@@ -1,4 +1,4 @@
-# Panayotis A. Kola — personal site
+# Panayotis Kola — personal site
 
 Static site for GitHub Pages. No build step: HTML, CSS and vanilla JavaScript.
 
