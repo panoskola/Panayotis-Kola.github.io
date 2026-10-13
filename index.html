@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panayotis A. Kola — IT Systems Administrator</title>
-<meta name="description" content="Panayotis A. Kola, IT Systems Administrator based in Athens, Greece. Identity, access, and endpoint security governance.">
+<title>Panayotis A. Kola — IT Administrator</title>
+<meta name="description" content="Panayotis A. Kola, IT Administrator based in Athens, Greece. 9+ years in IT support and administration: user access, endpoint management and security, Windows Server and Active Directory.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
@@ -161,7 +161,7 @@
   /* ---------- Security & Access Stack ---------- */
   .stack-grid{
     display:grid;
-    grid-template-columns:repeat(3, 1fr);
+    grid-template-columns:repeat(2, 1fr);
     gap:18px;
   }
   .stack-card{
@@ -262,6 +262,14 @@
     background:var(--accent);
   }
 
+  .sub-role{
+    display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    font-size:0.9rem; font-weight:600; color:var(--ink);
+    margin:4px 0 12px;
+  }
+  .role-card-body ul + .sub-role{margin-top:20px; padding-top:18px; border-top:1px solid var(--line);}
+  .sub-period{font-family:var(--mono); font-size:11.5px; font-weight:500; color:var(--ink-faint);}
+
   /* ---------- Credentials (Education / Courses) ---------- */
   .grid-2{
     display:grid;
@@ -349,6 +357,7 @@
     <div class="topbar-right">
       <a href="mailto:kola.panagiotis@gmail.com">Email</a>
       <a href="https://www.linkedin.com/in/panayotisarturkola/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/panoskola/home-lab" target="_blank" rel="noopener">GitHub</a>
     </div>
   </div>
 </div>
@@ -358,12 +367,12 @@
     <div class="hero-top">
       <div>
         <h1>Panayotis A. Kola</h1>
-        <div class="role-line">IT Systems Administrator <span class="sep">·</span> Identity, Access &amp; Endpoint Security</div>
+        <div class="role-line">IT Administrator <span class="sep">·</span> Systems, Access &amp; Endpoint Management</div>
       </div>
       <div class="contact-block">
         Athens 11744, Greece<br>
         <a href="mailto:kola.panagiotis@gmail.com">kola.panagiotis@gmail.com</a><br>
-        Greek (Native) · English (Fluent)
+        Greek (Native) · English (B2)
       </div>
     </div>
   </div>
@@ -371,18 +380,18 @@
     <div class="domains-strip">
       <div class="domain-cell">
         <div class="domain-label">Identity &amp; Access</div>
-        <div class="domain-value">IAM, MFA, RBAC</div>
+        <div class="domain-value">Onboarding, MFA, RBAC</div>
       </div>
       <div class="domain-cell">
         <div class="domain-label">Endpoint Security</div>
-        <div class="domain-value">Fleet-wide policy &amp; response</div>
+        <div class="domain-value">Patching &amp; EDR alerts</div>
       </div>
       <div class="domain-cell">
         <div class="domain-label">Device Management</div>
-        <div class="domain-value">MDM, lifecycle, provisioning</div>
+        <div class="domain-value">MDM, lifecycle, imaging</div>
       </div>
       <div class="domain-cell">
-        <div class="domain-label">Scale Governed</div>
+        <div class="domain-label">Scale Supported</div>
         <div class="domain-value">22 countries · 6 time zones</div>
       </div>
     </div>
@@ -397,14 +406,14 @@
       <h2>Profile</h2>
     </div>
     <p class="summary-text">
-      IT Systems Administrator with a track record of owning identity, access, and endpoint security for distributed organizations. Sets and enforces policy across Google Workspace IAM, MFA, and RBAC; governs device fleets through JumpCloud MDM; and maintains security posture across NinjaRMM, SentinelOne, Trend Micro, and Bitdefender. Has held administrative responsibility for operations spanning 22 countries and six time zones, improving reliability through automation, standardization, and clear governance documentation.
+      IT Administrator with 9+ years in IT support and administration. At Blueground I moved from IT Support Officer to IT Administrator, supporting users in 22 countries and six time zones through Jira Service Management and managing accounts, access and devices across Google Workspace, JumpCloud MDM, SentinelOne and Trend Micro Apex One. At Dialectica I administered Microsoft 365, Google Workspace and NinjaRMM. I run a Windows Server 2022 and Active Directory home lab on Hyper-V, document every build and fix as a runbook, and I am preparing for CompTIA Network+.
     </p>
   </section>
 
   <section id="stack">
     <div class="section-head">
-      <div class="section-label">Systems Governed</div>
-      <h2>Security &amp; Access Stack</h2>
+      <div class="section-label">Tools &amp; Platforms</div>
+      <h2>Technical Stack</h2>
     </div>
     <div class="stack-grid">
       <div class="stack-card">
@@ -428,8 +437,7 @@
           <span class="platform-tag">SentinelOne</span>
           <span class="platform-tag">Trend Micro Apex</span>
           <span class="platform-tag">Bitdefender</span>
-          <span class="platform-tag">Cortex XDR</span>
-          <span class="platform-tag">Palo Alto</span>
+          <span class="platform-tag">Patch Management</span>
         </div>
       </div>
       <div class="stack-card">
@@ -440,8 +448,22 @@
         <div class="platform-tags">
           <span class="platform-tag">JumpCloud MDM</span>
           <span class="platform-tag">NinjaRMM</span>
-          <span class="platform-tag">Asset Lifecycle</span>
-          <span class="platform-tag">Jira Service Desk</span>
+          <span class="platform-tag">Snipe-IT</span>
+          <span class="platform-tag">Jira Service Management</span>
+          <span class="platform-tag">Windows · macOS · iOS</span>
+        </div>
+      </div>
+      <div class="stack-card">
+        <div class="stack-card-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="7" rx="1.5"/><rect x="2" y="14" width="20" height="7" rx="1.5"/><line x1="6" y1="6.5" x2="6.01" y2="6.5"/><line x1="6" y1="17.5" x2="6.01" y2="17.5"/></svg>
+        </div>
+        <h3>Servers &amp; Networking</h3>
+        <div class="platform-tags">
+          <span class="platform-tag">Windows Server 2022 (lab)</span>
+          <span class="platform-tag">AD DS · Group Policy</span>
+          <span class="platform-tag">Hyper-V</span>
+          <span class="platform-tag">TCP/IP · DNS · DHCP</span>
+          <span class="platform-tag">3CX</span>
         </div>
       </div>
     </div>
@@ -457,19 +479,17 @@
       <div class="role-card-head">
         <div class="role-top-row">
           <div class="role-title-group">
-            <span class="role-title">IT Administrator</span>
-            <span class="role-org"><span class="org-name">Dialectica</span> · Piraeus</span>
+            <span class="role-title">Automation Engineer</span>
+            <span class="role-org"><span class="org-name">Velcotech G.P.</span> · Athens</span>
           </div>
-          <span class="role-period">Jan 2025 — Mar 2025</span>
+          <span class="role-period">Mar 2025 — Feb 2026</span>
         </div>
-        <div class="role-scope">Owned <b>identity governance and endpoint security</b> across cloud and on-prem environments.</div>
+        <div class="role-scope">Field role outside IT: <b>electrical automation and control systems</b> for hotel and spa installations.</div>
       </div>
       <div class="role-card-body">
         <ul>
-          <li>Administered core IT infrastructure across cloud and on-prem environments, maintaining service availability, security, and compliance during a fast-paced operational period.</li>
-          <li>Governed identity and access in Microsoft 365 Admin Center and Google Admin Console — provisioning and deprovisioning accounts, enforcing MFA, and applying role-based access controls.</li>
-          <li>Set and maintained endpoint security policy across NinjaRMM, Palo Alto, Cortex XDR, and Bitdefender, including patch management cadence and alert escalation thresholds.</li>
-          <li>Diagnosed and resolved high-priority incidents to restore services quickly and support business continuity.</li>
+          <li>Worked on client sites as part of an installation crew, diagnosing and repairing faults on live systems to a fixed schedule, where downtime directly affected the client's guests.</li>
+          <li>Documented installed configurations for handover and coordinated daily with the crew, contractors and client staff.</li>
         </ul>
       </div>
     </div>
@@ -479,19 +499,46 @@
         <div class="role-top-row">
           <div class="role-title-group">
             <span class="role-title">IT Administrator</span>
-            <span class="role-org"><span class="org-name">Blueground</span> · Marousi</span>
+            <span class="role-org"><span class="org-name">Dialectica</span> · Piraeus</span>
           </div>
-          <span class="role-period">Nov 2021 — Dec 2024</span>
+          <span class="role-period">Jan 2025 — Mar 2025</span>
         </div>
-        <div class="role-scope">Administered IT for <b>22 countries across six time zones</b>, owning access policy and asset lifecycle.</div>
+        <div class="role-scope">Administration and end-user support across <b>Microsoft 365, Google Workspace and NinjaRMM</b>.</div>
       </div>
       <div class="role-card-body">
         <ul>
-          <li>Held administrative responsibility for global IT operations across 22 countries and six time zones, setting SLA standards and escalation paths via Jira Service Desk.</li>
-          <li>Automated user onboarding and offboarding and tightened access controls across Google Workspace, Slack, JumpCloud (MDM), and Jira — reducing manual provisioning and strengthening account security org-wide.</li>
-          <li>Set endpoint security policy and maintained device health using SentinelOne and Trend Micro Apex, including patch management cadence and alert response standards.</li>
-          <li>Owned end-to-end IT asset lifecycle for remote and on-site staff — procurement, inventory governance, provisioning, and secure decommissioning.</li>
-          <li>Standardized desktop images and network configurations and authored deployment documentation to improve consistency across distributed teams.</li>
+          <li>Provided on-site and remote end-user support via TeamViewer across Windows and macOS.</li>
+          <li>Handled onboarding, offboarding and access roles across Google Workspace and Jira, and administered Microsoft 365, Atlassian, Slack, Zoom and NinjaRMM.</li>
+          <li>Tracked IT assets in Snipe-IT and monitored endpoint security alerts in Bitdefender.</li>
+          <li>Configured and maintained hardware, software, printers and scanners, and resolved high-priority incidents to restore service quickly.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="role-card">
+      <div class="role-card-head">
+        <div class="role-top-row">
+          <div class="role-title-group">
+            <span class="role-title">IT Administrator / IT Support Officer</span>
+            <span class="role-org"><span class="org-name">Blueground</span> · Athens</span>
+          </div>
+          <span class="role-period">Nov 2021 — Dec 2024</span>
+        </div>
+        <div class="role-scope">Supported a distributed company across <b>22 countries and six time zones</b>; promoted from IT Support Officer to IT Administrator.</div>
+      </div>
+      <div class="role-card-body">
+        <div class="sub-role"><span>Information Technology Administrator</span><span class="sub-period">Feb 2023 — Dec 2024</span></div>
+        <ul>
+          <li>Owned the IT asset lifecycle for office and remote staff — procurement, inventory, provisioning and secure decommissioning — integrated with JumpCloud.</li>
+          <li>Standardised desktop images and network configurations and documented Desktop, LAN and WAN standards, which made troubleshooting faster and more consistent.</li>
+          <li>Kept endpoints patched and healthy with SentinelOne and Trend Micro Apex One, and followed up on security alerts.</li>
+          <li>Suggested and contributed to internal process improvements, and presented them to other teams.</li>
+        </ul>
+        <div class="sub-role"><span>Information Technology Support Officer</span><span class="sub-period">Nov 2021 — Feb 2023</span></div>
+        <ul>
+          <li>First point of contact for users across 22 countries and six time zones through Jira Service Management: triaged incidents, met SLAs and escalated critical issues with full notes.</li>
+          <li>Managed user accounts and access across Google Workspace, Slack and Jira, and devices and policies through JumpCloud MDM.</li>
+          <li>Administered and supported the company cloud telephone system (3CX): extensions, user issues and day-to-day changes.</li>
         </ul>
       </div>
     </div>
@@ -501,17 +548,17 @@
         <div class="role-top-row">
           <div class="role-title-group">
             <span class="role-title">Technical Support Engineer</span>
-            <span class="role-org"><span class="org-name">iSystem</span> · Halandri</span>
+            <span class="role-org"><span class="org-name">iSystem Greece</span> · Halandri</span>
           </div>
-          <span class="role-period">Nov 2018 — Nov 2021</span>
+          <span class="role-period">Dec 2018 — Nov 2021</span>
         </div>
-        <div class="role-scope">Apple Certified Technician handling escalated hardware and software repair.</div>
+        <div class="role-scope">Apple Certified Macintosh and iOS Technician handling hardware and software repair.</div>
       </div>
       <div class="role-card-body">
         <ul>
-          <li>Performed hardware and software repairs for macOS and iOS devices as an Apple Certified Technician, restoring devices to operational readiness and maintaining repair quality standards.</li>
-          <li>Diagnosed and resolved escalated technical issues through structured troubleshooting and defined escalation paths, meeting service SLAs and improving service reliability.</li>
-          <li>Documented repair findings and resolution steps to support consistent handoffs and faster repeat issue resolution.</li>
+          <li>Diagnosed and repaired macOS and iOS devices as an Apple Certified Macintosh and iOS Technician, including component-level hardware work.</li>
+          <li>Dealt directly with customers at the service desk: understood the problem, explained the fix and the options, and handled difficult conversations calmly.</li>
+          <li>Resolved escalated issues through structured troubleshooting and defined escalation paths, within service SLAs.</li>
         </ul>
       </div>
     </div>
@@ -521,7 +568,7 @@
         <div class="role-top-row">
           <div class="role-title-group">
             <span class="role-title">IT Store Support</span>
-            <span class="role-org"><span class="org-name">Retail World AE (Public)</span> · Athens</span>
+            <span class="role-org"><span class="org-name">Retail World A.E. (Public)</span> · Athens</span>
           </div>
           <span class="role-period">Jul 2016 — Nov 2018</span>
         </div>
@@ -529,10 +576,34 @@
       </div>
       <div class="role-card-body">
         <ul>
-          <li>Supported point-of-sale and in-store IT systems by configuring devices, monitoring performance, and performing preventive maintenance to reduce downtime during daily store operations.</li>
-          <li>Provided front-line technical support for laptops, desktops, and mobile devices, diagnosing hardware and software issues and guiding non-technical users through fixes.</li>
-          <li>Executed routine system updates and maintenance during peak retail hours to maintain operational continuity.</li>
-          <li>Tracked and met monthly KPIs for customer satisfaction, response times, and system availability.</li>
+          <li>Front-line support for laptops, desktops and mobile devices, guiding non-technical customers to a solution.</li>
+          <li>Supported point-of-sale and in-store IT systems: device configuration and preventive maintenance to reduce downtime.</li>
+          <li>Met monthly KPIs for customer satisfaction and response times.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head">
+      <div class="section-label">Hands-on</div>
+      <h2>Projects</h2>
+    </div>
+    <div class="role-card">
+      <div class="role-card-head">
+        <div class="role-top-row">
+          <div class="role-title-group">
+            <span class="role-title">Windows Server &amp; Active Directory Home Lab</span>
+            <span class="role-org"><a class="org-name" href="https://github.com/panoskola/home-lab" target="_blank" rel="noopener">github.com/panoskola/home-lab</a></span>
+          </div>
+          <span class="role-period">2026 — present</span>
+        </div>
+      </div>
+      <div class="role-card-body">
+        <ul>
+          <li>Built and maintain a lab on Hyper-V: Windows Server 2022 domain controller with AD DS and integrated DNS, a domain-joined Windows 11 client, users, groups, OUs and Group Policy.</li>
+          <li>Run deliberate break/fix exercises — IP and DNS misconfiguration, failed domain joins — and diagnose them with nltest, dcdiag, ipconfig and Event Viewer.</li>
+          <li>Document every build and fix as a runbook in Git: what broke, how it was verified and what I learned.</li>
         </ul>
       </div>
     </div>
@@ -548,7 +619,7 @@
       <div class="cred-card">
         <h3>Education</h3>
         <div class="cred-row">
-          <div class="cred-name">Associate Degree, Electrical Automations &amp; Robotics</div>
+          <div class="cred-name">Vocational Diploma (EQF Level 5), Electrical Automation &amp; Robotics</div>
           <div class="cred-meta">
             <span>IEK Delta, Athens</span>
             <span>2014 — 2016</span>
@@ -559,23 +630,30 @@
       <div class="cred-card">
         <h3>Courses &amp; Certifications</h3>
         <div class="cred-row">
-          <div class="cred-name">CompTIA A+ Certification</div>
+          <div class="cred-name">CompTIA Network+ (N10-009)</div>
           <div class="cred-meta">
-            <span>—</span>
-            <span class="cred-status pending">In Progress</span>
-          </div>
-        </div>
-        <div class="cred-row">
-          <div class="cred-name">IT Security Foundations: Network Security</div>
-          <div class="cred-meta">
-            <span>LinkedIn Learning</span>
-            <span class="cred-status">Completed</span>
+            <span>CompTIA</span>
+            <span class="cred-status pending">In Preparation</span>
           </div>
         </div>
         <div class="cred-row">
           <div class="cred-name">Apple Certified Macintosh Technician (ACMT)</div>
           <div class="cred-meta">
             <span>Apple</span>
+            <span class="cred-status">Completed</span>
+          </div>
+        </div>
+        <div class="cred-row">
+          <div class="cred-name">Apple Certified iOS Technician &amp; Apple Professional Support</div>
+          <div class="cred-meta">
+            <span>Apple</span>
+            <span class="cred-status">Completed</span>
+          </div>
+        </div>
+        <div class="cred-row">
+          <div class="cred-name">IT Security Foundations: Network Security</div>
+          <div class="cred-meta">
+            <span>LinkedIn Learning</span>
             <span class="cred-status">Completed</span>
           </div>
         </div>
@@ -587,7 +665,7 @@
         <h3>Languages</h3>
         <div class="tag-row">
           <span class="simple-tag">Greek — Native</span>
-          <span class="simple-tag">English — Fluent</span>
+          <span class="simple-tag">English — B2 (professional working)</span>
         </div>
       </div>
       <div class="cred-card">
