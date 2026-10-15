@@ -3,7 +3,7 @@ window.SITE = {
   ui: {
     en: {
       'nav.about': 'About', 'nav.stack': 'Stack', 'nav.experience': 'Experience',
-      'nav.lab': 'Home Lab', 'nav.certs': 'Credentials', 'nav.contact': 'Contact',
+      'nav.lab': 'Home Lab', 'nav.projects': 'Projects', 'nav.certs': 'Credentials', 'nav.contact': 'Contact',
       'hero.kicker': 'Athens, Greece · 9+ years in IT',
       'hero.tagline': 'I keep users productive and systems secure — from the service desk to the domain controller.',
       'hero.cv': 'Download CV', 'hero.terminal': 'Open terminal', 'hero.contact': 'Get in touch',
@@ -12,7 +12,7 @@ window.SITE = {
       'stat.tz': 'Time zones', 'stat.apple': 'Years Apple-certified repair',
       'about.label': 'About', 'about.title': 'Profile',
       'about.p1': 'IT Administrator with 9+ years in IT support and administration. At Blueground I moved from IT Support Officer to IT Administrator, supporting users in 22 countries and six time zones through Jira Service Management and managing accounts, access and devices across Google Workspace, JumpCloud MDM, SentinelOne and Trend Micro Apex One.',
-      'about.p2': 'At Dialectica I administered Microsoft 365, Google Workspace and NinjaRMM. Today I run a Windows Server 2022 and Active Directory home lab on Hyper-V, document every build and fix as a runbook, and I am preparing for CompTIA Network+.',
+      'about.p2': 'At Dialectica I administered Microsoft 365, Google Workspace and NinjaRMM. Today I run a Windows Server 2022 and Active Directory home lab on Hyper-V and a self-hosted Linux and Docker analytics server in Oracle Cloud, document every build and fix as a runbook, and I am preparing for CompTIA Network+.',
       'about.f1t': 'Service first', 'about.f1': 'Tickets triaged against SLAs, every fix written down, users kept informed.',
       'about.f2t': 'Access done right', 'about.f2': 'Onboarding, offboarding, MFA and role-based access across cloud platforms.',
       'about.f3t': 'Learn by breaking', 'about.f3': 'A lab where failures are caused on purpose, diagnosed and documented.',
@@ -24,6 +24,9 @@ window.SITE = {
       'lab.roadmap': 'Build log & roadmap', 'lab.repo': 'View runbooks on GitHub',
       'lab.gw': 'gateway · intentionally absent', 'lab.lesson': 'Lesson',
       'lab.done': 'Done', 'lab.next': 'Next',
+      'proj.label': 'Built & running', 'proj.title': 'Projects',
+      'proj.flow': 'Request path', 'proj.stack': 'Stack', 'proj.learned': 'What broke, and what it taught me',
+      'proj.repo': 'View code & runbook on GitHub',
       'certs.label': 'Background', 'certs.title': 'Education & Credentials',
       'certs.edu': 'Education', 'certs.courses': 'Certifications & Training', 'certs.lang': 'Languages',
       'certs.prep': 'In preparation', 'certs.done': 'Completed',
@@ -35,7 +38,7 @@ window.SITE = {
     },
     el: {
       'nav.about': 'Προφίλ', 'nav.stack': 'Τεχνολογίες', 'nav.experience': 'Εμπειρία',
-      'nav.lab': 'Home Lab', 'nav.certs': 'Πιστοποιήσεις', 'nav.contact': 'Επικοινωνία',
+      'nav.lab': 'Home Lab', 'nav.projects': 'Projects', 'nav.certs': 'Πιστοποιήσεις', 'nav.contact': 'Επικοινωνία',
       'hero.kicker': 'Αθήνα · 9+ χρόνια στο IT',
       'hero.tagline': 'Κρατάω τους χρήστες παραγωγικούς και τα συστήματα ασφαλή — από το service desk μέχρι τον domain controller.',
       'hero.cv': 'Λήψη CV', 'hero.terminal': 'Άνοιγμα terminal', 'hero.contact': 'Επικοινωνία',
@@ -44,7 +47,7 @@ window.SITE = {
       'stat.tz': 'Ζώνες ώρας', 'stat.apple': 'Χρόνια πιστοποιημένων επισκευών Apple',
       'about.label': 'Σχετικά', 'about.title': 'Προφίλ',
       'about.p1': 'IT Administrator με 9+ χρόνια σε υποστήριξη και διαχείριση IT. Στη Blueground πέρασα από IT Support Officer σε IT Administrator, υποστηρίζοντας χρήστες σε 22 χώρες και έξι ζώνες ώρας μέσω Jira Service Management και διαχειριζόμενος λογαριασμούς, πρόσβαση και συσκευές σε Google Workspace, JumpCloud MDM, SentinelOne και Trend Micro Apex One.',
-      'about.p2': 'Στη Dialectica διαχειρίστηκα Microsoft 365, Google Workspace και NinjaRMM. Σήμερα τρέχω ένα home lab με Windows Server 2022 και Active Directory σε Hyper-V, τεκμηριώνω κάθε στήσιμο και κάθε διόρθωση ως runbook και προετοιμάζομαι για το CompTIA Network+.',
+      'about.p2': 'Στη Dialectica διαχειρίστηκα Microsoft 365, Google Workspace και NinjaRMM. Σήμερα τρέχω ένα home lab με Windows Server 2022 και Active Directory σε Hyper-V και έναν self-hosted Linux/Docker server για analytics στο Oracle Cloud, τεκμηριώνω κάθε στήσιμο και κάθε διόρθωση ως runbook και προετοιμάζομαι για το CompTIA Network+.',
       'about.f1t': 'Πρώτα η εξυπηρέτηση', 'about.f1': 'Tickets με προτεραιότητα βάσει SLA, κάθε λύση καταγεγραμμένη, οι χρήστες πάντα ενημερωμένοι.',
       'about.f2t': 'Σωστή πρόσβαση', 'about.f2': 'Onboarding, offboarding, MFA και πρόσβαση βάσει ρόλων σε cloud πλατφόρμες.',
       'about.f3t': 'Μαθαίνω χαλώντας', 'about.f3': 'Ένα lab όπου οι βλάβες προκαλούνται σκόπιμα, διαγιγνώσκονται και τεκμηριώνονται.',
@@ -56,6 +59,9 @@ window.SITE = {
       'lab.roadmap': 'Ημερολόγιο & επόμενα βήματα', 'lab.repo': 'Τα runbooks στο GitHub',
       'lab.gw': 'gateway · σκόπιμα ανύπαρκτο', 'lab.lesson': 'Μάθημα',
       'lab.done': 'Έγινε', 'lab.next': 'Επόμενο',
+      'proj.label': 'Στημένα & σε λειτουργία', 'proj.title': 'Projects',
+      'proj.flow': 'Διαδρομή αιτήματος', 'proj.stack': 'Τεχνολογίες', 'proj.learned': 'Τι χάλασε και τι μου έμαθε',
+      'proj.repo': 'Κώδικας & runbook στο GitHub',
       'certs.label': 'Υπόβαθρο', 'certs.title': 'Σπουδές & Πιστοποιήσεις',
       'certs.edu': 'Σπουδές', 'certs.courses': 'Πιστοποιήσεις & Εκπαίδευση', 'certs.lang': 'Γλώσσες',
       'certs.prep': 'Σε προετοιμασία', 'certs.done': 'Ολοκληρώθηκε',
@@ -214,6 +220,31 @@ window.SITE = {
     { done: false, en: 'Group Policy: drive mapping, password policy, Enforced vs Block Inheritance', el: 'Group Policy: drive mapping, password policy, Enforced vs Block Inheritance' },
     { done: false, en: 'File server with share and NTFS permissions', el: 'File server με share και NTFS δικαιώματα' },
     { done: false, en: 'Packet capture of DHCP and DNS traffic in Wireshark', el: 'Καταγραφή κίνησης DHCP και DNS στο Wireshark' }
+  ],
+
+  projects: [
+    {
+      title: { en: 'Self-hosted Web Analytics', el: 'Self-hosted Web Analytics' },
+      tagline: { en: 'Visitor analytics for this site, on a server I run myself',
+                 el: 'Στατιστικά επισκεπτών για αυτό το site, σε server που διαχειρίζομαι ο ίδιος' },
+      period: '2026',
+      status: { en: 'Live', el: 'Σε λειτουργία' },
+      repo: 'https://github.com/panoskola/site-analytics',
+      desc: { en: 'Umami analytics on an Oracle Cloud Always Free VM (Ubuntu 24.04, Ampere ARM). Docker Compose runs Caddy, Umami and PostgreSQL; Caddy obtains and renews the Let’s Encrypt certificate on its own. Only ports 22, 80 and 443 are open, the database stays on the internal Docker network, and a nightly pg_dump keeps 14 days of backups. Cookieless, so the site needs no consent banner.',
+              el: 'Umami analytics σε Oracle Cloud Always Free VM (Ubuntu 24.04, Ampere ARM). Το Docker Compose τρέχει Caddy, Umami και PostgreSQL· ο Caddy εκδίδει και ανανεώνει μόνος του το πιστοποιητικό Let’s Encrypt. Ανοιχτές είναι μόνο οι θύρες 22, 80 και 443, η βάση μένει στο εσωτερικό δίκτυο του Docker και ένα νυχτερινό pg_dump κρατάει backups 14 ημερών. Χωρίς cookies, οπότε το site δεν χρειάζεται banner συναίνεσης.' },
+      flow: ['panoskola.github.io', 'script.js', 'DuckDNS', 'Caddy · HTTPS', 'Umami', 'PostgreSQL'],
+      tags: ['Oracle Cloud (OCI)', 'Ubuntu 24.04', 'Docker Compose', 'Caddy', 'PostgreSQL 16', 'Let’s Encrypt', 'DuckDNS', 'iptables', 'cron'],
+      lessons: [
+        { en: 'The VM came up on end-of-life Ubuntu 20.04 and Docker would not install. I rebuilt it on 24.04 instead of patching around it.',
+          el: 'Το VM σηκώθηκε με Ubuntu 20.04, εκτός υποστήριξης, και το Docker δεν εγκαθίστατο. Το ξανάστησα σε 24.04 αντί να το μπαλώσω.' },
+        { en: 'A running instance is not a reachable one: it had no public IP, then the cloud security list and the host’s iptables both had to allow 80/443.',
+          el: 'Ένα instance που τρέχει δεν είναι απαραίτητα προσβάσιμο: δεν είχε public IP, και μετά έπρεπε να ανοίξουν οι 80/443 και στο security list και στο iptables του host.' },
+        { en: 'Docker group membership applies only after a new login. Verify with groups before blaming Docker.',
+          el: 'Η ένταξη στο group docker ισχύει μόνο μετά από νέο login. Πρώτα έλεγχος με groups, μετά υποψίες για το Docker.' },
+        { en: 'The dashboard counted nothing because the site sent a placeholder website ID. Copy identifiers from the source, never from an example.',
+          el: 'Το dashboard δεν μετρούσε τίποτα γιατί το site έστελνε placeholder website ID. Τα αναγνωριστικά αντιγράφονται από την πηγή, ποτέ από παράδειγμα.' }
+      ]
+    }
   ],
 
   certs: [
