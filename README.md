@@ -18,7 +18,5 @@ Visitor statistics come from my self-hosted Umami instance — see
 
 ## Notes
 
-This site was built with the help of **Claude**, Anthropic's AI assistant. Claude wrote most
-of the HTML, CSS and JavaScript and helped with the copy and the design, working from my
-CV, my projects and my feedback. I reviewed the content, made my own edits, and handle the
-publishing and upkeep on GitHub Pages.
+Development was assisted by [Claude](https://claude.ai/), Anthropic's AI model. Design
+decisions, content review, testing on real devices and releases are by the maintainer.
