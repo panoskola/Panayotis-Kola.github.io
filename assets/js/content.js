@@ -27,6 +27,7 @@ window.SITE = {
       'proj.label': 'Built & running', 'proj.title': 'Projects',
       'proj.flow': 'Request path', 'proj.stack': 'Stack', 'proj.learned': 'What broke, and what it taught me',
       'proj.repo': 'View code & runbook on GitHub',
+      'proj.pipeline': 'Pipeline', 'proj.learned2': 'What I learned', 'proj.code': 'View code on GitHub',
       'certs.label': 'Background', 'certs.title': 'Education & Credentials',
       'certs.edu': 'Education', 'certs.courses': 'Certifications & Training', 'certs.lang': 'Languages',
       'certs.prep': 'In preparation', 'certs.done': 'Completed',
@@ -62,6 +63,7 @@ window.SITE = {
       'proj.label': 'Στημένα & σε λειτουργία', 'proj.title': 'Projects',
       'proj.flow': 'Διαδρομή αιτήματος', 'proj.stack': 'Τεχνολογίες', 'proj.learned': 'Τι χάλασε και τι μου έμαθε',
       'proj.repo': 'Κώδικας & runbook στο GitHub',
+      'proj.pipeline': 'Ροή', 'proj.learned2': 'Τι έμαθα', 'proj.code': 'Ο κώδικας στο GitHub',
       'certs.label': 'Υπόβαθρο', 'certs.title': 'Σπουδές & Πιστοποιήσεις',
       'certs.edu': 'Σπουδές', 'certs.courses': 'Πιστοποιήσεις & Εκπαίδευση', 'certs.lang': 'Γλώσσες',
       'certs.prep': 'Σε προετοιμασία', 'certs.done': 'Ολοκληρώθηκε',
@@ -243,6 +245,27 @@ window.SITE = {
           el: 'Η ένταξη στο group docker ισχύει μόνο μετά από νέο login. Πρώτα έλεγχος με groups, μετά υποψίες για το Docker.' },
         { en: 'The dashboard counted nothing because the site sent a placeholder website ID. Copy identifiers from the source, never from an example.',
           el: 'Το dashboard δεν μετρούσε τίποτα γιατί το site έστελνε placeholder website ID. Τα αναγνωριστικά αντιγράφονται από την πηγή, ποτέ από παράδειγμα.' }
+      ]
+    },
+    {
+      title: { en: 'World Cup Discord Bot', el: 'World Cup Discord Bot' },
+      tagline: { en: 'Daily World Cup 2026 fixtures and results in a Discord server — built for fun',
+                 el: 'Καθημερινά οι αγώνες και τα αποτελέσματα του Μουντιάλ 2026 σε Discord server — φτιαγμένο για πλάκα' },
+      period: '2026',
+      status: { en: 'For fun', el: 'For fun' },
+      repo: 'https://github.com/panoskola/worldcup-discord-bot',
+      repoKey: 'proj.code', flowKey: 'proj.pipeline', learnedKey: 'proj.learned2',
+      desc: { en: 'Two Python scripts that run on a schedule in GitHub Actions, so there is no server to maintain. Every morning they pull the day’s fixtures and the previous day’s results from the football-data.org REST API and post them to a Discord channel through a webhook, one embed card per match: kickoff times in Greek time before the games, final scores with the winner marked after them. The API token and the webhook URL are stored as GitHub Actions secrets.',
+              el: 'Δύο Python scripts που τρέχουν προγραμματισμένα στο GitHub Actions, χωρίς server να συντηρώ. Κάθε πρωί τραβάνε τους αγώνες της ημέρας και τα αποτελέσματα της προηγούμενης από το REST API του football-data.org και τα στέλνουν σε κανάλι Discord μέσω webhook, μία κάρτα (embed) ανά αγώνα: ώρα έναρξης σε ώρα Ελλάδας πριν τα παιχνίδια, τελικό σκορ με σημειωμένο νικητή μετά. Το API token και το webhook URL φυλάσσονται ως GitHub Actions secrets.' },
+      flow: ['GitHub Actions · cron', 'Python 3.12', 'football-data.org API', 'Discord webhook'],
+      tags: ['Python 3.12', 'requests', 'GitHub Actions', 'cron', 'REST API', 'Discord webhooks', 'GitHub Secrets', 'zoneinfo'],
+      lessons: [
+        { en: 'Matches landed on the wrong day: Greek midnight split the tournament’s match days. The fix was to anchor the “match day” to US Eastern time, like the official schedules, and only display kickoff times in Greek time.',
+          el: 'Οι αγώνες έπεφταν σε λάθος μέρα: τα μεσάνυχτα Ελλάδας «έσπαγαν» τις αγωνιστικές. Η λύση ήταν να ορίζεται η «μέρα αγώνων» με βάση την ώρα ανατολικής ακτής ΗΠΑ, όπως στα επίσημα προγράμματα, και η ώρα Ελλάδας να χρησιμοποιείται μόνο για εμφάνιση.' },
+        { en: 'One US day spans two UTC dates, so the API is queried one day either side and the matches are filtered precisely afterwards.',
+          el: 'Μία μέρα στις ΗΠΑ πιάνει δύο ημερομηνίες UTC, οπότε το API ρωτιέται για μία μέρα πριν και μία μετά και τα αποτελέσματα φιλτράρονται με ακρίβεια μετά.' },
+        { en: 'Secrets stay out of the code: both scripts read the token and webhook from environment variables and stop with a clear error if either is missing.',
+          el: 'Τα secrets μένουν έξω από τον κώδικα: τα scripts διαβάζουν token και webhook από μεταβλητές περιβάλλοντος και σταματούν με σαφές μήνυμα αν λείπει κάποιο.' }
       ]
     }
   ],

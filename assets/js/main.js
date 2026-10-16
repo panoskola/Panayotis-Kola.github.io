@@ -110,12 +110,12 @@
         '<header class="proj-head"><div><h3 class="proj-title">' + esc(L(p.title)) + '</h3><p class="proj-tag">' + esc(L(p.tagline)) + '</p></div>' +
         '<div class="proj-meta"><span class="badge ok proj-live">' + esc(L(p.status)) + '</span><span class="t-period">' + esc(p.period) + '</span></div></header>' +
         '<p class="proj-desc">' + esc(L(p.desc)) + '</p>' +
-        '<h4 class="mini-head">' + esc(t('proj.flow')) + '</h4><div class="proj-flow">' + flow + '</div>' +
+        '<h4 class="mini-head">' + esc(t(p.flowKey || 'proj.flow')) + '</h4><div class="proj-flow">' + flow + '</div>' +
         '<div class="proj-grid"><div><h4 class="mini-head">' + esc(t('proj.stack')) + '</h4><div class="tags">' +
           p.tags.map(function (tg) { return '<span class="tag">' + esc(tg) + '</span>'; }).join('') + '</div></div>' +
-        '<div><h4 class="mini-head">' + esc(t('proj.learned')) + '</h4><ul class="proj-lessons">' +
+        '<div><h4 class="mini-head">' + esc(t(p.learnedKey || 'proj.learned')) + '</h4><ul class="proj-lessons">' +
           p.lessons.map(function (l) { return '<li>' + esc(L(l)) + '</li>'; }).join('') + '</ul></div></div>' +
-        '<a class="btn btn-ghost btn-sm" href="' + esc(p.repo) + '" target="_blank" rel="noopener">' + gh + '<span>' + esc(t('proj.repo')) + '</span></a>' +
+        '<a class="btn btn-ghost btn-sm" href="' + esc(p.repo) + '" target="_blank" rel="noopener">' + gh + '<span>' + esc(t(p.repoKey || 'proj.repo')) + '</span></a>' +
         '</article>';
     }).join('');
   }
